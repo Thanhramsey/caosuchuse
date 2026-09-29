@@ -32,6 +32,9 @@ $showLanguageSwitch = $englishSiteUrl !== '#';
 	<link rel="stylesheet" href="<?php echo public_asset('assets/css/site.css'); ?>">
 </head>
 <body>
+<div class="site-loader" aria-hidden="true"><span class="site-loader-mark"><img src="<?php echo html_escape($logoUrl); ?>" alt=""></span><span class="site-loader-ring"></span></div>
+<div class="site-scroll-progress" aria-hidden="true"><span></span></div>
+<noscript><style>.site-loader,.site-scroll-progress{display:none!important}</style></noscript>
 <a class="skip-link" href="#noi-dung-chinh"><?php echo lang('site_skip_to_content'); ?></a>
 
 <header class="site-header">

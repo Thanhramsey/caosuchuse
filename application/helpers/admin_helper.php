@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+if (! function_exists('admin_asset'))
+{
+	function admin_asset($path)
+	{
+		$path = ltrim((string) $path, '/');
+		$fullPath = FCPATH . $path;
+		return base_url($path) . '?v=' . (is_file($fullPath) ? filemtime($fullPath) : 0);
+	}
+}
+
 if (! function_exists('admin_icon'))
 {
 	function admin_icon($name, $class = 'icon')

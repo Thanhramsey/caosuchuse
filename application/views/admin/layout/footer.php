@@ -31,6 +31,6 @@
 
 <script src="<?php echo base_url('assets/vendor/bootstrap/5.3.3/bootstrap.bundle.min.js'); ?>"></script>
 <?php if ($useEditor): ?><script src="<?php echo base_url('assets/vendor/jodit/4.2.27/jodit.min.js'); ?>"></script><?php endif; ?>
-<script src="<?php echo base_url('assets/js/admin.js'); ?>"></script>
+<script src="<?php echo admin_asset('assets/js/admin.js'); ?>"></script>
 </body>
 </html>

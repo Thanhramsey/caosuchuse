@@ -1,55 +1,79 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-$menu = array(
-	array('heading' => 'Tổng quan'),
-	array('key' => 'dashboard', 'label' => 'Bảng điều khiển', 'icon' => 'home', 'url' => 'admin', 'permission' => NULL),
-	array('heading' => 'Nội dung'),
-	array('key' => 'news', 'label' => 'Tin tức', 'icon' => 'news', 'url' => 'admin/noi-dung/news', 'permission' => 'news.view'),
-	array('key' => 'projects', 'label' => 'Dự án', 'icon' => 'projects', 'url' => 'admin/noi-dung/projects', 'permission' => 'projects.manage'),
-	array('key' => 'services', 'label' => 'Dịch vụ', 'icon' => 'services', 'url' => 'admin/noi-dung/services', 'permission' => 'services.manage'),
-	array('key' => 'internal', 'label' => 'Thông tin nội bộ', 'icon' => 'news', 'url' => 'admin/noi-dung/internal', 'permission' => 'internal.manage'),
-	array('key' => 'disclosures', 'label' => 'Công bố thông tin', 'icon' => 'file', 'url' => 'admin/noi-dung/disclosures', 'permission' => 'disclosures.manage'),
-	array('key' => 'products', 'label' => 'Sản phẩm', 'icon' => 'box', 'url' => 'admin/noi-dung/products', 'permission' => 'products.manage'),
-	array('key' => 'pages', 'label' => 'Trang tĩnh', 'icon' => 'page', 'url' => 'admin/noi-dung/pages', 'permission' => 'pages.manage'),
-	array('key' => 'albums', 'label' => 'Ngân hàng ảnh', 'icon' => 'photo', 'url' => 'admin/noi-dung/albums', 'permission' => 'albums.manage'),
-	array('key' => 'videos', 'label' => 'Video', 'icon' => 'video', 'url' => 'admin/noi-dung/videos', 'permission' => 'videos.manage'),
-	array('key' => 'achievements', 'label' => 'Thành tích', 'icon' => 'award', 'url' => 'admin/noi-dung/achievements', 'permission' => 'achievements.manage'),
-	array('key' => 'faqs', 'label' => 'Hỏi đáp', 'icon' => 'help', 'url' => 'admin/noi-dung/faqs', 'permission' => 'faqs.manage'),
-	array('key' => 'categories', 'label' => 'Danh mục', 'icon' => 'folder', 'url' => 'admin/danh-muc', 'permission' => 'categories.manage'),
-	array('heading' => 'Giao diện'),
-	array('key' => 'sliders', 'label' => 'Slider trang chủ', 'icon' => 'photo', 'url' => 'admin/sliders', 'permission' => 'sliders.manage'),
-	array('key' => 'media', 'label' => 'Media / Tệp', 'icon' => 'photo', 'url' => 'admin/media', 'permission' => 'media.upload'),
-	array('key' => 'home', 'label' => 'Nội dung trang chủ', 'icon' => 'home', 'url' => 'admin/trang-chu', 'permission' => 'home.manage'),
-	array('key' => 'menus', 'label' => 'Quản lý menu', 'icon' => 'menu', 'url' => 'admin/menu', 'permission' => 'menus.manage'),
-	array('key' => 'partners', 'label' => 'Đối tác', 'icon' => 'users', 'url' => 'admin/partners', 'permission' => 'partners.manage'),
-	array('key' => 'testimonials', 'label' => 'Ý kiến khách hàng', 'icon' => 'news', 'url' => 'admin/testimonials', 'permission' => 'testimonials.manage'),
-	array('key' => 'settings', 'label' => 'Cấu hình website', 'icon' => 'device', 'url' => 'admin/cau-hinh', 'permission' => 'settings.manage'),
-	array('heading' => 'Tương tác'),
-	array('key' => 'contacts', 'label' => 'Liên hệ', 'icon' => 'news', 'url' => 'admin/contacts', 'permission' => 'contacts.manage'),
-	array('key' => 'newsletter_subscribers', 'label' => 'Đăng ký nhận tin', 'icon' => 'users', 'url' => 'admin/newsletter_subscribers', 'permission' => 'newsletter.manage'),
-	array('key' => 'comments', 'label' => 'Bình luận', 'icon' => 'news', 'url' => 'admin/comments', 'permission' => 'comments.moderate'),
-	array('heading' => 'Người dùng & quyền'),
-	array('key' => 'users', 'label' => 'Người dùng', 'icon' => 'users', 'url' => 'admin/nguoi-dung', 'permission' => 'users.view'),
-	array('key' => 'permissions', 'label' => 'Phân quyền', 'icon' => 'shield', 'url' => 'admin/phan-quyen', 'permission' => 'users.assign_role')
+$menuGroups = array(
+	array('key' => 'overview', 'label' => 'Tổng quan', 'icon' => 'home', 'url' => 'admin', 'active' => 'dashboard'),
+	array('key' => 'content', 'label' => 'Quản lý nội dung', 'icon' => 'news', 'items' => array(
+		array('key' => 'news', 'label' => 'Tin tức', 'url' => 'admin/noi-dung/news', 'permission' => 'news.view'),
+		array('key' => 'projects', 'label' => 'Dự án', 'url' => 'admin/noi-dung/projects', 'permission' => 'projects.manage'),
+		array('key' => 'services', 'label' => 'Lĩnh vực / Dịch vụ', 'url' => 'admin/noi-dung/services', 'permission' => 'services.manage'),
+		array('key' => 'products', 'label' => 'Sản phẩm', 'url' => 'admin/noi-dung/products', 'permission' => 'products.manage'),
+		array('key' => 'pages', 'label' => 'Trang tĩnh', 'url' => 'admin/noi-dung/pages', 'permission' => 'pages.manage'),
+		array('key' => 'internal', 'label' => 'Thông tin nội bộ', 'url' => 'admin/noi-dung/internal', 'permission' => 'internal.manage'),
+		array('key' => 'disclosures', 'label' => 'Công bố thông tin', 'url' => 'admin/noi-dung/disclosures', 'permission' => 'disclosures.manage'),
+		array('key' => 'achievements', 'label' => 'Thành tích', 'url' => 'admin/noi-dung/achievements', 'permission' => 'achievements.manage'),
+		array('key' => 'faqs', 'label' => 'Hỏi đáp', 'url' => 'admin/noi-dung/faqs', 'permission' => 'faqs.manage'),
+		array('key' => 'categories', 'label' => 'Danh mục nội dung', 'url' => 'admin/danh-muc', 'permission' => 'categories.manage')
+	)),
+	array('key' => 'library', 'label' => 'Thư viện', 'icon' => 'photo', 'items' => array(
+		array('key' => 'media', 'label' => 'Media / Tệp', 'url' => 'admin/media', 'permission' => 'media.upload'),
+		array('key' => 'albums', 'label' => 'Ngân hàng ảnh', 'url' => 'admin/noi-dung/albums', 'permission' => 'albums.manage'),
+		array('key' => 'videos', 'label' => 'Video', 'url' => 'admin/noi-dung/videos', 'permission' => 'videos.manage')
+	)),
+	array('key' => 'appearance', 'label' => 'Giao diện website', 'icon' => 'device', 'items' => array(
+		array('key' => 'home', 'label' => 'Nội dung trang chủ', 'url' => 'admin/trang-chu', 'permission' => 'home.manage'),
+		array('key' => 'sliders', 'label' => 'Slider trang chủ', 'url' => 'admin/sliders', 'permission' => 'sliders.manage'),
+		array('key' => 'menus', 'label' => 'Menu website', 'url' => 'admin/menu', 'permission' => 'menus.manage'),
+		array('key' => 'partners', 'label' => 'Đối tác', 'url' => 'admin/partners', 'permission' => 'partners.manage'),
+		array('key' => 'testimonials', 'label' => 'Ý kiến khách hàng', 'url' => 'admin/testimonials', 'permission' => 'testimonials.manage')
+	)),
+	array('key' => 'interaction', 'label' => 'Tương tác', 'icon' => 'users', 'items' => array(
+		array('key' => 'contacts', 'label' => 'Liên hệ', 'url' => 'admin/contacts', 'permission' => 'contacts.manage'),
+		array('key' => 'newsletter_subscribers', 'label' => 'Đăng ký nhận tin', 'url' => 'admin/newsletter_subscribers', 'permission' => 'newsletter.manage'),
+		array('key' => 'comments', 'label' => 'Bình luận', 'url' => 'admin/comments', 'permission' => 'comments.moderate')
+	)),
+	array('key' => 'system', 'label' => 'Hệ thống', 'icon' => 'shield', 'items' => array(
+		array('key' => 'settings', 'label' => 'Cấu hình website', 'url' => 'admin/cau-hinh', 'permission' => 'settings.manage'),
+		array('key' => 'users', 'label' => 'Người dùng', 'url' => 'admin/nguoi-dung', 'permission' => 'users.view'),
+		array('key' => 'permissions', 'label' => 'Vai trò & phân quyền', 'url' => 'admin/phan-quyen', 'permission' => 'users.assign_role')
+	))
 );
 $visibleMenu = array();
-$pendingHeading = NULL;
-foreach ($menu as $entry)
+foreach ($menuGroups as $group)
 {
-	if (isset($entry['heading']))
+	if (! isset($group['items']))
 	{
-		$pendingHeading = $entry;
+		$visibleMenu[] = $group;
 		continue;
 	}
-	if ($entry['permission'] !== NULL && ! admin_can($entry['permission']))
+	$items = array();
+	$group['is_active'] = FALSE;
+	foreach ($group['items'] as $item)
 	{
-		continue;
+		if ($item['permission'] !== NULL && ! admin_can($item['permission'])) continue;
+		$items[] = $item;
+		if ($activeMenu === $item['key']) $group['is_active'] = TRUE;
 	}
-	if ($pendingHeading !== NULL)
+	if (! empty($items))
 	{
-		$visibleMenu[] = $pendingHeading;
-		$pendingHeading = NULL;
+		$group['items'] = $items;
+		$visibleMenu[] = $group;
 	}
-	$visibleMenu[] = $entry;
+}
+$activeGroupLabel = 'Tổng quan';
+foreach ($visibleMenu as $group)
+{
+	if (! isset($group['items']) && $activeMenu === $group['active'])
+	{
+		$activeGroupLabel = $group['label'];
+		break;
+	}
+	foreach (isset($group['items']) ? $group['items'] : array() as $item)
+	{
+		if ($activeMenu === $item['key'])
+		{
+			$activeGroupLabel = $group['label'];
+			break 2;
+		}
+	}
 }
 $userName = isset($currentUser['full_name']) ? $currentUser['full_name'] : '';
 $userEmail = isset($currentUser['email']) ? $currentUser['email'] : '';
@@ -65,7 +89,7 @@ $userEmail = isset($currentUser['email']) ? $currentUser['email'] : '';
 	<link rel="icon" href="<?php echo base_url('assets/images/logo.png'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('assets/vendor/tabler/1.4.0/tabler.min.css'); ?>">
 	<?php if ($useEditor): ?><link rel="stylesheet" href="<?php echo base_url('assets/vendor/jodit/4.2.27/jodit.min.css'); ?>"><?php endif; ?>
-	<link rel="stylesheet" href="<?php echo base_url('assets/css/admin.css'); ?>">
+	<link rel="stylesheet" href="<?php echo admin_asset('assets/css/admin.css'); ?>">
 </head>
 <body class="admin-body" data-base-url="<?php echo html_escape(base_url()); ?>" data-upload-url="<?php echo html_escape(site_url('admin/media/upload')); ?>" data-flash-success="<?php echo html_escape($flashSuccess); ?>" data-flash-error="<?php echo html_escape($flashError); ?>">
 <div class="page">
@@ -81,15 +105,28 @@ $userEmail = isset($currentUser['email']) ? $currentUser['email'] : '';
 			<div class="collapse navbar-collapse" id="sidebar-menu">
 				<ul class="navbar-nav pt-lg-2">
 					<?php foreach ($visibleMenu as $entry): ?>
-						<?php if (isset($entry['heading'])): ?>
-							<li class="nav-item admin-nav-heading"><?php echo html_escape($entry['heading']); ?></li>
-						<?php else: ?>
-							<li class="nav-item<?php echo $activeMenu === $entry['key'] ? ' active' : ''; ?>">
-								<a class="nav-link" href="<?php echo site_url($entry['url']); ?>"<?php echo $activeMenu === $entry['key'] ? ' aria-current="page"' : ''; ?>>
-									<span class="nav-link-icon"><?php echo admin_icon($entry['icon']); ?></span>
-									<span class="nav-link-title"><?php echo html_escape($entry['label']); ?></span>
-								</a>
-							</li>
+						<?php if (! isset($entry['items'])): ?>
+						<li class="nav-item<?php echo $activeMenu === $entry['active'] ? ' active' : ''; ?>">
+							<a class="nav-link" href="<?php echo site_url($entry['url']); ?>"<?php echo $activeMenu === $entry['active'] ? ' aria-current="page"' : ''; ?>>
+								<span class="nav-link-icon"><?php echo admin_icon($entry['icon']); ?></span>
+								<span class="nav-link-title"><?php echo html_escape($entry['label']); ?></span>
+							</a>
+						</li>
+						<?php else: $collapseId = 'admin-nav-' . $entry['key']; ?>
+						<li class="nav-item admin-nav-group<?php echo $entry['is_active'] ? ' active is-open' : ''; ?>">
+							<button class="nav-link admin-nav-parent" type="button" data-bs-toggle="collapse" data-bs-target="#<?php echo $collapseId; ?>" aria-expanded="<?php echo $entry['is_active'] ? 'true' : 'false'; ?>" aria-controls="<?php echo $collapseId; ?>">
+								<span class="nav-link-icon"><?php echo admin_icon($entry['icon']); ?></span>
+								<span class="nav-link-title"><?php echo html_escape($entry['label']); ?></span>
+								<span class="admin-nav-caret" aria-hidden="true">›</span>
+							</button>
+							<div class="collapse admin-nav-children<?php echo $entry['is_active'] ? ' show' : ''; ?>" id="<?php echo $collapseId; ?>">
+								<ul class="nav nav-pills flex-column">
+									<?php foreach ($entry['items'] as $item): ?>
+									<li class="nav-item<?php echo $activeMenu === $item['key'] ? ' active' : ''; ?>"><a class="nav-link admin-nav-child" href="<?php echo site_url($item['url']); ?>"<?php echo $activeMenu === $item['key'] ? ' aria-current="page"' : ''; ?>><span class="admin-nav-dot"></span><span class="nav-link-title"><?php echo html_escape($item['label']); ?></span></a></li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+						</li>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
@@ -103,7 +140,7 @@ $userEmail = isset($currentUser['email']) ? $currentUser['email'] : '';
 	<div class="page-wrapper">
 		<header class="navbar navbar-expand-md d-none d-lg-flex d-print-none admin-topbar">
 			<div class="container-xl">
-				<div class="text-secondary small admin-breadcrumb">Quản trị <span aria-hidden="true">/</span> <strong><?php echo html_escape($pageTitle); ?></strong></div>
+				<div class="text-secondary small admin-breadcrumb">Quản trị <span aria-hidden="true">/</span> <?php echo html_escape($activeGroupLabel); ?><?php if ($pageTitle !== $activeGroupLabel): ?> <span aria-hidden="true">/</span> <strong><?php echo html_escape($pageTitle); ?></strong><?php endif; ?></div>
 				<div class="navbar-nav flex-row order-md-last ms-auto">
 					<div class="nav-item dropdown">
 						<a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-label="Mở menu tài khoản">
