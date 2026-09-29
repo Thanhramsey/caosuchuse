@@ -1,0 +1,37 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+$renderMenu = NULL;
+$renderMenu = function ($items) use (&$renderMenu) {
+	foreach ($items as $item):
+		$children = isset($item['children']) ? $item['children'] : array();
+		?><li<?php echo ! empty($children) ? ' class="has-children"' : ''; ?>><a href="<?php echo html_escape($item['url']); ?>"<?php echo $item['target'] === '_blank' ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo html_escape($item['title']); ?><?php echo ! empty($children) ? ' <span aria-hidden="true">⌄</span>' : ''; ?></a><?php if (! empty($children)): ?><ul><?php $renderMenu($children); ?></ul><?php endif; ?></li><?php endforeach;
+};
+$publicSuccess = (string) $this->session->flashdata('public_success');
+$publicError = (string) $this->session->flashdata('public_error');
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?php echo html_escape($page_title); ?></title>
+	<meta name="description" content="<?php echo html_escape($description); ?>">
+	<link rel="stylesheet" href="<?php echo base_url('assets/css/site.css'); ?>">
+</head>
+<body>
+	<?php if ($publicSuccess !== '' || $publicError !== ''): ?><div class="site-alert <?php echo $publicError !== '' ? 'site-alert-error' : ''; ?>" role="status"><?php echo html_escape($publicError !== '' ? $publicError : $publicSuccess); ?></div><?php endif; ?>
+	<header class="site-header">
+		<div class="utility-bar"><div class="container utility-inner"><span>Phát triển bền vững từ vùng đất Chư Sê</span><span>Hotline: <strong>Đang cập nhật</strong></span></div></div>
+		<div class="container navigation">
+			<a class="brand" href="<?php echo site_url(); ?>" aria-label="Trang chủ Cao su Chư Sê"><img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Logo Công ty Cao su Chư Sê"><span><strong>Cao su Chư Sê</strong><small>Công ty TNHH MTV</small></span></a>
+			<nav class="site-nav" aria-label="Điều hướng chính"><ul><?php $renderMenu($mainMenu); ?></ul></nav>
+		</div>
+	</header>
+	<main class="inner-page">
+		<section class="inner-hero"><div class="container inner-hero-content"><p class="eyebrow"><?php echo html_escape($number); ?> / <?php echo html_escape($section); ?></p><h1><?php echo html_escape($heading); ?></h1><p><?php echo html_escape($description); ?></p></div></section>
+		<section class="section container inner-content"><div class="section-label"><?php echo ! empty($content_html) ? 'Nội dung' : 'Nội dung đang hoàn thiện'; ?></div><div class="inner-content-grid"><h2><?php echo html_escape($section); ?><br><em>cùng Chư Sê.</em></h2><div><?php if (! empty($content_html)): ?><div class="dynamic-html"><?php echo $content_html; ?></div><?php else: ?><p class="lead">Đây là trang public đã được tạo theo cấu trúc thiết kế đã chốt.</p><p class="muted">Phần dữ liệu thật, hình ảnh, bài viết và thông tin liên hệ sẽ được đưa vào sau khi chủ dự án cung cấp và phê duyệt.</p><?php endif; ?><a class="text-link" href="<?php echo site_url(); ?>">Về trang chủ <span aria-hidden="true">↗</span></a></div></div></section>
+		<?php if (! empty($contactForm)): ?><section class="section container public-form-section"><div class="section-label">Gửi yêu cầu</div><form class="public-form" method="post" action="<?php echo site_url('lien-he/gui'); ?>"><?php echo form_hidden($this->security->get_csrf_token_name(), $this->security->get_csrf_hash()); ?><div class="form-grid"><input name="name" placeholder="Họ tên" required><input type="email" name="email" placeholder="Email" required><input name="phone" placeholder="Điện thoại"><input name="subject" placeholder="Chủ đề" required></div><textarea name="message" rows="6" placeholder="Nội dung cần liên hệ" required></textarea><button class="button button-dark" type="submit">Gửi liên hệ <span aria-hidden="true">→</span></button></form></section><?php endif; ?>
+		<?php if (! empty($commentResource)): ?><section class="section container public-form-section"><div class="section-label">Bình luận</div><form class="public-form" method="post" action="<?php echo site_url('binh-luan'); ?>"><?php echo form_hidden($this->security->get_csrf_token_name(), $this->security->get_csrf_hash()); ?><input type="hidden" name="resource" value="<?php echo html_escape($commentResource); ?>"><input type="hidden" name="item_id" value="<?php echo (int) $commentItemId; ?>"><div class="form-grid"><input name="author_name" placeholder="Họ tên" required><input type="email" name="email" placeholder="Email" required></div><textarea name="body" rows="5" placeholder="Nội dung bình luận" required></textarea><button class="button button-dark" type="submit">Gửi bình luận <span aria-hidden="true">→</span></button></form></section><?php endif; ?>
+	</main>
+	<footer class="site-footer"><div class="container footer-top"><div><p class="eyebrow">Cao su Chư Sê</p><h2>Cùng tạo nên<br><em>giá trị bền vững.</em></h2></div><div class="footer-contact"><p>Liên hệ với chúng tôi</p><strong>Thông tin đang cập nhật</strong><a href="<?php echo site_url('lien-he'); ?>">Gửi yêu cầu liên hệ</a></div></div><div class="container footer-links"><div><span>Liên kết nhanh</span><ul><?php $renderMenu($footerMenu); ?></ul></div></div><div class="container footer-bottom"><span>© <?php echo date('Y'); ?> Cao su Chư Sê</span><span>Thông tin được cập nhật từ hệ thống quản trị</span></div></footer>
+</body>
+</html>

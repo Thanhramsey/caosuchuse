@@ -1,0 +1,6 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<!DOCTYPE html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tin tức - Quản trị</title><link rel="stylesheet" href="<?php echo base_url('assets/css/site.css'); ?>"></head>
+<body class="admin-page"><header class="admin-header"><strong><a href="<?php echo site_url('admin'); ?>">Quản trị</a> / Tin tức</strong><a href="<?php echo site_url('admin/dang-xuat'); ?>">Đăng xuất</a></header><main class="admin-shell"><p class="eyebrow">Nội dung</p><h1>Tin tức</h1><table class="admin-table"><thead><tr><th>Tiêu đề</th><th>Slug</th><th>Trạng thái</th><th>Cập nhật</th></tr></thead><tbody><?php if (empty($news)): ?><tr><td colspan="4">Chưa có bài viết.</td></tr><?php else: ?><?php foreach ($news as $item): ?><tr><td><?php echo html_escape($item['title']); ?></td><td><?php echo html_escape($item['slug']); ?></td><td><?php echo html_escape($item['status']); ?></td><td><?php echo html_escape($item['updated_at']); ?></td></tr><?php endforeach; ?><?php endif; ?></tbody></table></main></body>
+</html>
