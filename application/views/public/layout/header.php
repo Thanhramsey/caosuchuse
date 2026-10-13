@@ -10,6 +10,7 @@ if ($siteLang === 'en')
 }
 $logoUrl = public_media_url(isset($settings['logo_path']) ? $settings['logo_path'] : '', base_url('assets/images/logo.png'));
 $bannerUrl = public_media_url(isset($settings['header_banner']) ? $settings['header_banner'] : '', '');
+$mastheadSceneUrl = $bannerUrl !== '' ? $bannerUrl : base_url('assets/images/hero-rubber-plantation.webp');
 $metaImage = isset($meta_image) && $meta_image !== '' ? $meta_image : $logoUrl;
 $englishSiteUrl = isset($settings['english_site_url']) ? public_safe_url($settings['english_site_url']) : '#';
 $showLanguageSwitch = $englishSiteUrl !== '#';
@@ -56,10 +57,10 @@ $showLanguageSwitch = $englishSiteUrl !== '#';
 				<p class="masthead-slogan"><?php echo nl2br(html_escape($slogan)); ?></p>
 				<?php endif; ?>
 			</div>
-			<div class="masthead-media">
-				<?php if ($bannerUrl !== ''): ?>
-				<img src="<?php echo html_escape($bannerUrl); ?>" alt="">
-				<?php endif; ?>
+			<div class="masthead-media" aria-hidden="true">
+				<span class="masthead-diamond masthead-diamond--one"><img src="<?php echo html_escape($mastheadSceneUrl); ?>" alt=""></span>
+				<span class="masthead-diamond masthead-diamond--two"><img src="<?php echo html_escape($mastheadSceneUrl); ?>" alt=""></span>
+				<span class="masthead-diamond masthead-diamond--three"><img src="<?php echo html_escape($mastheadSceneUrl); ?>" alt=""></span>
 			</div>
 		</div>
 		<div class="nav-bar">

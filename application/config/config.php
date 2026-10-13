@@ -27,7 +27,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $appBaseUrl = getenv('APP_BASE_URL');
 if ($appBaseUrl === FALSE || $appBaseUrl === '')
 {
-	$devHosts = array('localhost' => 'http://localhost/chuse/', '127.0.0.1' => 'http://127.0.0.1/chuse/', 'chuse.test' => 'http://chuse.test/');
+	$devHosts = array(
+		'localhost' => 'http://localhost/chuse/',
+		'127.0.0.1' => 'http://127.0.0.1/chuse/',
+		'chuse.test' => 'http://chuse.test/',
+		'qlcviec.freedev.app' => 'https://qlcviec.freedev.app/'
+	);
 	$requestHost = isset($_SERVER['HTTP_HOST']) ? strtolower((string) $_SERVER['HTTP_HOST']) : 'localhost';
 	$appBaseUrl = isset($devHosts[$requestHost]) ? $devHosts[$requestHost] : 'http://localhost/chuse/';
 }
@@ -395,7 +400,7 @@ $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'chuse_session';
 $config['sess_samesite'] = 'Lax';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_save_path'] = rtrim(sys_get_temp_dir(), '/\\');
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
@@ -419,8 +424,9 @@ $config['sess_regenerate_destroy'] = FALSE;
 $config['cookie_prefix']	= '';
 $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_secure']	= (! empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off')
+	OR (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+$config['cookie_httponly'] 	= TRUE;
 $config['cookie_samesite'] 	= 'Lax';
 
 /*

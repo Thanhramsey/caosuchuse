@@ -8,6 +8,8 @@ $date = public_date(isset($item['published_at']) ? $item['published_at'] : '');
 	<a href="<?php echo html_escape($url); ?>" tabindex="-1" aria-hidden="true">
 		<img src="<?php echo html_escape(public_media_url($item['cover_path'])); ?>" alt="" loading="lazy">
 	</a>
+	<?php else: ?>
+	<a class="news-card-placeholder" href="<?php echo html_escape($url); ?>" tabindex="-1" aria-hidden="true" data-resource="<?php echo html_escape($resource); ?>"><span>CS</span></a>
 	<?php endif; ?>
 	<div class="news-card-body">
 		<h3><a href="<?php echo html_escape($url); ?>"><?php echo html_escape($item['title']); ?></a></h3>

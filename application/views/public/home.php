@@ -6,7 +6,7 @@
 
 	<div class="main-col">
 		<?php if (! empty($slider)): ?>
-		<section class="panel panel-hero" aria-label="<?php echo lang('site_featured_images'); ?>">
+		<section class="panel panel-hero home-hero" aria-label="<?php echo lang('site_featured_images'); ?>">
 			<div class="slides" data-slides data-interval="6000">
 				<?php foreach ($slider as $index => $slide): $link = public_safe_url($slide['link_url']); ?>
 				<div class="slide<?php echo $index === 0 ? ' is-active' : ''; ?>">
@@ -21,11 +21,11 @@
 		<?php endif; ?>
 
 		<?php foreach ($mainSections as $section): if ($section['section_type'] === 'slider') continue; ?>
-		<section class="panel">
+		<section class="panel home-section home-section--<?php echo html_escape($section['section_key']); ?>" data-home-section="<?php echo html_escape($section['section_key']); ?>">
 			<h2 class="panel-title"><?php echo html_escape(public_label($section, 'title', $siteLang)); ?></h2>
+			<?php if (! empty($section['subtitle'])): ?><p class="section-subtitle"><?php echo html_escape($section['subtitle']); ?></p><?php endif; ?>
 
 			<?php if ($section['section_type'] === 'html'): ?>
-				<?php if (! empty($section['subtitle'])): ?><p class="lead-title"><?php echo html_escape($section['subtitle']); ?></p><?php endif; ?>
 				<div class="rich-text"><?php echo $section['content_html']; ?></div>
 
 			<?php elseif ($section['section_type'] === 'image' && ! empty($section['image_path'])): ?>
@@ -40,8 +40,12 @@
 					<article class="product-card">
 						<?php if (! empty($item['cover_path'])): ?>
 						<img src="<?php echo html_escape(public_media_url($item['cover_path'])); ?>" alt="<?php echo html_escape($item['title']); ?>" loading="lazy">
+						<?php else: ?>
+						<div class="card-placeholder card-placeholder--product" aria-hidden="true"><span>CS</span></div>
 						<?php endif; ?>
 						<h3><a href="<?php echo html_escape(public_content_url('products', $item['slug'])); ?>"><?php echo html_escape($item['title']); ?></a></h3>
+						<?php if (! empty($item['excerpt'])): ?><p><?php echo html_escape(public_excerpt($item['excerpt'], 86)); ?></p><?php endif; ?>
+						<a class="card-link" href="<?php echo html_escape(public_content_url('products', $item['slug'])); ?>"><?php echo lang('site_view_item'); ?> <span aria-hidden="true">&rarr;</span></a>
 					</article>
 					<?php endforeach; ?>
 				</div>
@@ -74,8 +78,9 @@
 		<?php if (! empty($section['link_url'])): ?></a><?php endif; ?>
 	</section>
 	<?php else: ?>
-	<section class="panel" style="margin-top:var(--gap)">
+	<section class="panel home-section home-section--<?php echo html_escape($section['section_key']); ?>" data-home-section="<?php echo html_escape($section['section_key']); ?>" style="margin-top:var(--gap)">
 		<h2 class="panel-title panel-title--left"><?php echo html_escape(public_label($section, 'title', $siteLang)); ?></h2>
+		<?php if (! empty($section['subtitle'])): ?><p class="section-subtitle section-subtitle--left"><?php echo html_escape($section['subtitle']); ?></p><?php endif; ?>
 		<?php if ($section['section_type'] === 'html'): ?>
 			<div class="rich-text"><?php echo $section['content_html']; ?></div>
 		<?php elseif (empty($section['items'])): ?>

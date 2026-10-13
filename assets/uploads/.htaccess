@@ -1,4 +1,6 @@
-Options -ExecCGI -Indexes
-<FilesMatch "\.(php|php[0-9]|phtml|phar|cgi|pl|py|sh)$">
-    Require all denied
-</FilesMatch>
+# Shared hosts such as InfinityFree may reject "Options -ExecCGI" with HTTP 500.
+# Keep uploaded media public while preventing uploaded scripts from executing.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule \.(php[0-9]?|phtml|phar|cgi|pl|py|sh)$ - [F,L,NC]
+</IfModule>
