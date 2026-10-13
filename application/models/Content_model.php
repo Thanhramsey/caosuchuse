@@ -12,7 +12,7 @@ class Content_model extends CI_Model
 		'services' => array('label' => 'Lĩnh vực hoạt động', 'icon' => 'services', 'path' => 'linh-vuc', 'fields' => array('category', 'cover', 'excerpt', 'content')),
 		'projects' => array('label' => 'Dự án', 'icon' => 'projects', 'path' => 'du-an', 'fields' => array('category', 'cover', 'excerpt', 'content')),
 		'pages' => array('label' => 'Trang tĩnh', 'icon' => 'page', 'path' => 'trang', 'fields' => array('cover', 'excerpt', 'content', 'attachments')),
-		'albums' => array('label' => 'Ngân hàng ảnh', 'icon' => 'photo', 'path' => 'ngan-hang-anh', 'fields' => array('category', 'cover', 'excerpt', 'gallery')),
+		'albums' => array('label' => 'Ngân hàng ảnh', 'icon' => 'photo', 'path' => 'ngan-hang-anh', 'fields' => array('category', 'cover', 'excerpt', 'content', 'gallery')),
 		'videos' => array('label' => 'Video', 'icon' => 'video', 'path' => 'video', 'fields' => array('category', 'cover', 'excerpt', 'video')),
 		'achievements' => array('label' => 'Thành tích', 'icon' => 'award', 'path' => 'thanh-tich', 'fields' => array('cover', 'excerpt', 'content')),
 		'faqs' => array('label' => 'Hỏi đáp người lao động', 'icon' => 'help', 'path' => 'hoi-dap', 'fields' => array('category', 'answer'))

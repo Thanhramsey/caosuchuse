@@ -31,6 +31,7 @@ $showLanguageSwitch = $englishSiteUrl !== '#';
 	<meta property="og:locale" content="<?php echo $siteLang === 'en' ? 'en_US' : 'vi_VN'; ?>">
 	<link rel="icon" href="<?php echo html_escape($logoUrl); ?>">
 	<link rel="stylesheet" href="<?php echo public_asset('assets/css/site.css'); ?>">
+	<?php if (isset($resource) && $resource === 'albums'): ?><link rel="stylesheet" href="<?php echo public_asset('assets/vendor/glightbox/3.3.1/glightbox.min.css'); ?>"><?php endif; ?>
 </head>
 <body>
 <div class="site-loader" aria-hidden="true"><span class="site-loader-mark"><img src="<?php echo html_escape($logoUrl); ?>" alt=""></span><span class="site-loader-ring"></span></div>

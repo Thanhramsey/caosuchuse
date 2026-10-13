@@ -106,6 +106,7 @@ $mapUrl = preg_match('~^https://~i', $mapUrl) ? $mapUrl : '';
 	</div>
 </footer>
 
+<?php if (isset($resource) && $resource === 'albums'): ?><script src="<?php echo public_asset('assets/vendor/glightbox/3.3.1/glightbox.min.js'); ?>" defer></script><?php endif; ?>
 <script src="<?php echo public_asset('assets/js/site.js'); ?>" defer></script>
 </body>
 </html>

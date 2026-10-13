@@ -71,6 +71,20 @@
 		button.classList.toggle('btn-loading', loading);
 	}
 
+	function setUploadPending(field, pending) {
+		var form = field.closest('form');
+		if (!form) {
+			return;
+		}
+		var count = Math.max(0, (parseInt(form.getAttribute('data-upload-pending') || '0', 10) || 0) + (pending ? 1 : -1));
+		form.setAttribute('data-upload-pending', String(count));
+		var submit = form.querySelector('[type="submit"]');
+		if (submit) {
+			submit.disabled = count > 0;
+			submit.title = count > 0 ? 'Vui lòng đợi tải ảnh hoàn tất.' : '';
+		}
+	}
+
 	function slugify(text) {
 		return String(text || '')
 			.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -110,11 +124,20 @@
 				showXPathInStatusbar: false,
 				buttons: 'bold,italic,underline,strikethrough,|,paragraph,ul,ol,|,align,|,link,image,table,hr,|,eraser,undo,redo,|,source,fullsize',
 				uploader: {
-					url: uploadUrl,
+					url: uploadUrl + '?kind=image',
 					insertImageAsBase64URI: false,
 					prepareData: function (data) {
 						data.append(csrfName, csrfHash);
+						setUploadPending(textarea, true);
 						return data;
+					},
+					process: function (response) {
+						setUploadPending(textarea, false);
+						return response.data;
+					},
+					error: function (error) {
+						setUploadPending(textarea, false);
+						toast(error.message || 'Không tải được ảnh.', 'error');
 					}
 				}
 			});
@@ -181,6 +204,7 @@
 			var data = new FormData();
 			data.append('files', fileInput.files[0]);
 			setLoading(trigger, true);
+			setUploadPending(field, true);
 			postForm(uploadUrl + '?kind=image', data)
 				.then(function (res) {
 					if (!res.success) {
@@ -193,6 +217,7 @@
 				.catch(function (err) { toast(err.message, 'error'); })
 				.finally(function () {
 					setLoading(trigger, false);
+					setUploadPending(field, false);
 					fileInput.value = '';
 				});
 		});
@@ -229,11 +254,14 @@
 		var fileInput = field.querySelector('[data-attachments-file]');
 		trigger.addEventListener('click', function () { fileInput.click(); });
 		fileInput.addEventListener('change', function () {
+			var uploads = Promise.resolve();
 			Array.prototype.forEach.call(fileInput.files, function (file) {
 				var data = new FormData();
 				data.append('files[]', file);
-				setLoading(trigger, true);
-				postForm(uploadUrl, data).then(function (res) {
+				setUploadPending(field, true);
+				uploads = uploads.then(function () {
+					setLoading(trigger, true);
+					return postForm(uploadUrl, data).then(function (res) {
 					if (!res.success || !res.data || !res.data.items) {
 						throw new Error(res.message || 'Không tải được tệp.');
 					}
@@ -242,7 +270,11 @@
 						current.push({ path: row.querySelector('input[name*="[path]"]').value, title: row.querySelector('input[name*="[title]"]').value, ext: row.querySelector('input[name*="[path]"]').value.split('.').pop() });
 					});
 					renderAttachments(field, current.concat(res.data.items));
-				}).catch(function (err) { toast(err.message, 'error'); }).finally(function () { setLoading(trigger, false); });
+					}).catch(function (err) { toast(err.message, 'error'); }).finally(function () {
+						setLoading(trigger, false);
+						setUploadPending(field, false);
+					});
+				});
 			});
 			fileInput.value = '';
 		});
@@ -393,6 +425,10 @@
 
 		form.addEventListener('submit', function (event) {
 			event.preventDefault();
+			if (parseInt(form.getAttribute('data-upload-pending') || '0', 10) > 0) {
+				toast('Vui lòng đợi tải ảnh hoàn tất trước khi lưu.', 'error');
+				return;
+			}
 			editors.forEach(function (item) {
 				if (form.contains(item.textarea)) {
 					item.textarea.value = item.editor.value;

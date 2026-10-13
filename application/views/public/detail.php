@@ -47,7 +47,7 @@ foreach ($attachments as $file)
 			<h2 class="panel-title panel-title--left" style="margin-top:18px"><?php echo lang('site_images'); ?></h2>
 			<div class="gallery-grid">
 				<?php foreach ($images as $image): ?>
-				<a href="<?php echo html_escape(public_media_url($image['file_path'])); ?>" target="_blank" rel="noopener">
+				<a class="glightbox" data-gallery="album" data-title="<?php echo html_escape($image['title']); ?>" href="<?php echo html_escape(public_media_url($image['file_path'])); ?>">
 					<img src="<?php echo html_escape(public_media_url($image['file_path'])); ?>" alt="<?php echo html_escape($image['title']); ?>" loading="lazy">
 				</a>
 				<?php endforeach; ?>
