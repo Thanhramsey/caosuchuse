@@ -80,6 +80,53 @@ class Content extends Admin_Controller
 		$this->json(array('success' => TRUE, 'data' => $data));
 	}
 
+	public function preview($resource = '')
+	{
+		$this->ensureResource($resource);
+		$this->requirePost();
+		$id = (int) $this->input->post('id');
+		if ($id > 0)
+		{
+			$item = $this->Content_model->find($resource, $id);
+			if (empty($item) || ! $this->canUpdate($resource, $item))
+			{
+				return $this->json(array('success' => FALSE, 'message' => 'Ná»™i dung khÃ´ng tÃ¬m tháº¥y hoáº·c báº¡n khÃ´ng cÃ³ quyá»n xem trÆ°á»›c.'), 404);
+			}
+		}
+		else
+		{
+			$this->requirePermission($this->permission($resource, 'create'));
+		}
+
+		$title = trim((string) $this->input->post('title'));
+		if ($title === '')
+		{
+			return $this->json(array('success' => FALSE, 'message' => 'Vui lÃ²ng nháº­p tiÃªu Ä‘á» trÆ°á»›c khi xem trÆ°á»›c.'), 422);
+		}
+		$coverPath = trim((string) $this->input->post('cover_path'));
+		$errors = array();
+		if ($coverPath !== '' && ! $this->isUploadedImagePath($coverPath))
+		{
+			$errors['cover_path'] = 'áº¢nh Ä‘áº¡i diá»‡n pháº£i Ä‘Æ°á»£c táº£i lÃªn tá»« há»‡ thá»‘ng.';
+		}
+		$attachments = $this->collectAttachments($resource, $errors);
+		if (! empty($errors))
+		{
+			return $this->json(array('success' => FALSE, 'message' => 'Vui lÃ²ng kiá»ƒm tra láº¡i áº£nh vÃ  tÃ i liá»‡u Ä‘Ã­nh kÃ¨m.', 'errors' => $errors), 422);
+		}
+
+		$this->load->library('Html_sanitizer');
+		$hasBody = $this->Content_model->has($resource, 'content') || $this->Content_model->has($resource, 'answer');
+		$html = $this->load->view('admin/content/preview_document', array(
+			'title' => $title,
+			'excerpt' => (string) $this->input->post('excerpt'),
+			'coverPath' => $coverPath,
+			'contentHtml' => $hasBody ? $this->html_sanitizer->clean($this->input->post('content_html')) : '',
+			'attachments' => $attachments === NULL ? array() : $attachments
+		), TRUE);
+		$this->json(array('success' => TRUE, 'data' => array('html' => $html)));
+	}
+
 	public function save($resource = '')
 	{
 		$this->ensureResource($resource);

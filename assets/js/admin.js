@@ -331,14 +331,29 @@
 		var modal = bootstrap.Modal.getOrCreateInstance(modalEl, { focus: false });
 		var titleEl = modalEl.querySelector('[data-modal-title]');
 		var submitButton = form.querySelector('[type="submit"]');
+		var previewButton = form.querySelector('[data-content-preview]');
+		var previewBackButton = form.querySelector('[data-preview-back]');
+		var editPanel = form.querySelector('[data-edit-panel]');
+		var previewPanel = form.querySelector('[data-preview-panel]');
+		var previewFrame = form.querySelector('[data-preview-frame]');
 		var slugSource = form.querySelector('[data-slug-source]');
 		var slugTarget = form.querySelector('[data-slug-target]');
 		var passwordHint = form.querySelector('[data-password-hint]');
 		var slugTouched = false;
 
+		var showEditPanel = function () {
+			if (!previewPanel) { return; }
+			editPanel.classList.remove('d-none');
+			previewPanel.classList.add('d-none');
+			previewButton.classList.remove('d-none');
+			previewBackButton.classList.add('d-none');
+			submitButton.classList.remove('d-none');
+		};
+
 		var resetForm = function () {
 			form.reset();
 			form.elements.id.value = '';
+			showEditPanel();
 			clearErrors(form);
 			editors.forEach(function (item) {
 				if (form.contains(item.textarea)) {
@@ -415,6 +430,34 @@
 					slugTarget.value = slugify(slugSource.value);
 				}
 			});
+		}
+
+		if (previewButton) {
+			previewButton.addEventListener('click', function () {
+				if (parseInt(form.getAttribute('data-upload-pending') || '0', 10) > 0) {
+					toast('Vui lòng đợi tải ảnh và tệp hoàn tất trước khi xem trước.', 'error');
+					return;
+				}
+				editors.forEach(function (item) {
+					if (form.contains(item.textarea)) { item.textarea.value = item.editor.value; }
+				});
+				setLoading(previewButton, true);
+				postForm(previewButton.getAttribute('data-preview-url'), new FormData(form))
+					.then(function (res) {
+						if (!res.success || !res.data || !res.data.html) {
+						throw new Error(res.message || 'Không tạo được bản xem trước.');
+						}
+						previewFrame.srcdoc = res.data.html;
+						editPanel.classList.add('d-none');
+						previewPanel.classList.remove('d-none');
+						previewButton.classList.add('d-none');
+						previewBackButton.classList.remove('d-none');
+						submitButton.classList.add('d-none');
+					})
+					.catch(function (err) { toast(err.message, 'error'); })
+					.finally(function () { setLoading(previewButton, false); });
+			});
+			previewBackButton.addEventListener('click', showEditPanel);
 		}
 
 		form.addEventListener('input', function (event) {

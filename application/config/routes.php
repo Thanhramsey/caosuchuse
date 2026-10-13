@@ -80,6 +80,7 @@ $route['admin/dang-xuat'] = 'admin/auth/logout';
 $route['admin/tin-tuc'] = 'admin/content/index/news';
 $route['admin/noi-dung/(news|internal|disclosures|products|pages|albums|videos|achievements|faqs|projects|services)'] = 'admin/content/index/$1';
 $route['admin/noi-dung/(news|internal|disclosures|products|pages|albums|videos|achievements|faqs|projects|services)/chi-tiet/(:num)'] = 'admin/content/show/$1/$2';
+$route['admin/noi-dung/(news|internal|disclosures|products|pages|albums|videos|achievements|faqs|projects|services)/xem-truoc'] = 'admin/content/preview/$1';
 $route['admin/noi-dung/(news|internal|disclosures|products|pages|albums|videos|achievements|faqs|projects|services)/luu'] = 'admin/content/save/$1';
 $route['admin/noi-dung/(news|internal|disclosures|products|pages|albums|videos|achievements|faqs|projects|services)/xoa/(:num)'] = 'admin/content/delete/$1/$2';
 $route['admin/danh-muc'] = 'admin/categories/index';

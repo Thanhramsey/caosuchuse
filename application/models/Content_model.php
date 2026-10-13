@@ -14,7 +14,7 @@ class Content_model extends CI_Model
 		'pages' => array('label' => 'Trang tĩnh', 'icon' => 'page', 'path' => 'trang', 'fields' => array('cover', 'excerpt', 'content', 'attachments')),
 		'albums' => array('label' => 'Ngân hàng ảnh', 'icon' => 'photo', 'path' => 'ngan-hang-anh', 'fields' => array('category', 'cover', 'excerpt', 'content', 'gallery')),
 		'videos' => array('label' => 'Video', 'icon' => 'video', 'path' => 'video', 'fields' => array('category', 'cover', 'excerpt', 'video')),
-		'achievements' => array('label' => 'Thành tích', 'icon' => 'award', 'path' => 'thanh-tich', 'fields' => array('cover', 'excerpt', 'content')),
+		'achievements' => array('label' => 'Thành tích', 'icon' => 'award', 'path' => 'thanh-tich', 'fields' => array('cover', 'excerpt', 'content', 'attachments')),
 		'faqs' => array('label' => 'Hỏi đáp người lao động', 'icon' => 'help', 'path' => 'hoi-dap', 'fields' => array('category', 'answer'))
 	);
 

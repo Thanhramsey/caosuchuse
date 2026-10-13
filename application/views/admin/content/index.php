@@ -125,7 +125,7 @@ $lowerLabel = mb_strtolower($resourceLabel, 'UTF-8');
 				<h5 class="modal-title" data-modal-title>Thêm mới</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body" data-edit-panel>
 				<div class="row g-4">
 					<div class="col-lg-8">
 						<div class="mb-3">
@@ -203,8 +203,13 @@ $lowerLabel = mb_strtolower($resourceLabel, 'UTF-8');
 					</div>
 				</div>
 			</div>
+			<div class="modal-body d-none p-0" data-preview-panel>
+				<iframe title="Bản xem trước nội dung" data-preview-frame sandbox="allow-same-origin" style="display:block;width:100%;height:min(72vh,900px);border:0;background:#f2f6f3"></iframe>
+			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal">Hủy</button>
+				<button type="button" class="btn btn-outline-primary" data-content-preview data-preview-url="<?php echo site_url('admin/noi-dung/' . $resource . '/xem-truoc'); ?>">Xem trước</button>
+				<button type="button" class="btn btn-outline-secondary d-none" data-preview-back>Quay lại chỉnh sửa</button>
 				<button type="submit" class="btn btn-primary ms-auto">Lưu</button>
 			</div>
 		<?php echo form_close(); ?>
