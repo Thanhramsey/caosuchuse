@@ -359,6 +359,10 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 .widget-media:hover { text-decoration: none; }
 .widget-media:hover p { color: var(--green); }
 
+.widget-gallery a { display: block; overflow: hidden; border-radius: 2px; }
+.widget-gallery img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .2s ease; }
+.widget-gallery a:hover img { transform: scale(1.04); }
+
 .widget-price { width: 100%; border-collapse: collapse; font-size: 12px; }
 .widget-price caption {
 	background: #f6e4c3; font-weight: 700; padding: 5px; border: 1px solid var(--line);

@@ -27,6 +27,21 @@ $widgetId = 'widget-' . (int) $section['id'];
 				<?php echo $img; ?>
 			<?php endif; ?>
 
+		<?php elseif ($section['section_key'] === 'photo_bank'): ?>
+			<?php if (! empty($section['galleryImages'])): ?>
+			<div class="slides widget-gallery" data-slides data-interval="4000">
+				<?php foreach ($section['galleryImages'] as $index => $image): ?>
+				<div class="slide<?php echo $index === 0 ? ' is-active' : ''; ?>">
+					<a href="<?php echo html_escape(public_content_url('albums', $image['slug'])); ?>" aria-label="<?php echo html_escape($image['album_title']); ?>">
+						<img src="<?php echo html_escape(public_media_url($image['image_path'])); ?>" alt="<?php echo html_escape($image['title']); ?>" loading="lazy">
+					</a>
+				</div>
+				<?php endforeach; ?>
+			</div>
+			<?php else: ?>
+			<p class="muted" style="margin:0;font-size:12.5px"><?php echo lang('site_updating'); ?></p>
+			<?php endif; ?>
+
 		<?php elseif (empty($items)): ?>
 			<p class="muted" style="margin:0;font-size:12.5px"><?php echo lang('site_updating'); ?></p>
 

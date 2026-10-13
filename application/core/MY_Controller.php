@@ -199,6 +199,10 @@ class Public_Controller extends CI_Controller
 					continue;
 				}
 				$section['items'] = $this->sectionItems($section);
+				if ($section['section_key'] === 'photo_bank')
+				{
+					$section['galleryImages'] = $this->Attachment_model->galleryImages($section['item_limit']);
+				}
 				$sections[] = $section;
 			}
 		}
