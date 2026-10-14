@@ -18,26 +18,53 @@
 		if (slides.length < 2) { return; }
 
 		var current = 0;
+		var initial = Array.prototype.findIndex.call(slides, function (slide) { return slide.classList.contains('is-active'); });
+		if (initial >= 0) { current = initial; }
+		var transitionTimer = null;
 		var dots = document.createElement('div');
 		dots.className = 'dots';
+		slides.forEach(function (slide, slideIndex) {
+			slide.classList.remove('is-entering', 'is-exiting');
+			if (slideIndex !== current) { slide.classList.remove('is-active'); }
+			Array.prototype.forEach.call(slide.querySelectorAll('img[loading="lazy"]'), function (img) { img.loading = 'eager'; });
+		});
+		slides[current].classList.add('is-active');
+		root.setAttribute('data-slides-ready', 'true');
 
 		function show(index) {
-			slides[current].classList.remove('is-active');
+			var next = (index + slides.length) % slides.length;
+			if (next === current) { return; }
+			if (transitionTimer) { window.clearTimeout(transitionTimer); }
+			slides.forEach(function (slide, slideIndex) {
+				slide.classList.remove('is-entering', 'is-exiting');
+				if (slideIndex !== current) { slide.classList.remove('is-active'); }
+			});
+			var outgoing = slides[current];
+			var incoming = slides[next];
+			outgoing.classList.remove('is-active');
+			outgoing.classList.add('is-exiting');
+			incoming.classList.add('is-entering');
+			incoming.offsetWidth;
+			incoming.classList.remove('is-entering');
+			incoming.classList.add('is-active');
 			dots.children[current].classList.remove('is-active');
 			dots.children[current].setAttribute('aria-selected', 'false');
-			current = (index + slides.length) % slides.length;
-			slides[current].classList.add('is-active');
+			current = next;
 			dots.children[current].classList.add('is-active');
 			dots.children[current].setAttribute('aria-selected', 'true');
+			transitionTimer = window.setTimeout(function () {
+				outgoing.classList.remove('is-exiting');
+				transitionTimer = null;
+			}, 520);
 		}
 
 		slides.forEach(function (slide, index) {
 			var dot = document.createElement('button');
 			dot.type = 'button';
 			dot.setAttribute('role', 'tab');
-			dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+			dot.setAttribute('aria-selected', index === current ? 'true' : 'false');
 			dot.setAttribute('aria-label', 'Xem mục ' + (index + 1));
-			if (index === 0) { dot.className = 'is-active'; }
+			if (index === current) { dot.className = 'is-active'; }
 			dot.addEventListener('click', function () {
 				show(index);
 				stop();
