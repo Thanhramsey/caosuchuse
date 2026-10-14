@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" role="img" aria-labelledby="title">
+  <title id="title">ISO/IEC 17025 testing and calibration laboratories</title>
+  <rect width="160" height="120" fill="#fff"/>
+  <g fill="none" stroke="#1670b8" stroke-width="2.4">
+    <circle cx="80" cy="43" r="31"/>
+    <ellipse cx="80" cy="43" rx="14" ry="31"/>
+    <ellipse cx="80" cy="43" rx="27" ry="12"/>
+    <path d="M50 43h60M56 28h48M56 58h48"/>
+  </g>
+  <text x="80" y="51" text-anchor="middle" fill="#1266ac" font-family="Arial,sans-serif" font-size="24" font-weight="900">ISO</text>
+  <text x="80" y="91" text-anchor="middle" fill="#1266ac" font-family="Arial,sans-serif" font-size="19" font-weight="900">ISO/IEC 17025</text>
+  <text x="80" y="105" text-anchor="middle" fill="#174e78" font-family="Arial,sans-serif" font-size="7.3" font-weight="700">TESTING AND CALIBRATION LABORATORIES</text>
+</svg>

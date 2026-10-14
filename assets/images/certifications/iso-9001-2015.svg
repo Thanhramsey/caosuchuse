@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" role="img" aria-labelledby="title">
+  <title id="title">ISO 9001:2015</title>
+  <rect width="160" height="120" fill="#fff"/>
+  <g fill="none" stroke="#0870ba" stroke-width="2.5">
+    <ellipse cx="80" cy="42" rx="58" ry="34"/>
+    <ellipse cx="80" cy="42" rx="27" ry="34"/>
+    <path d="M23 42h114M31 26h98M31 58h98M50 13c19 16 19 42 0 58M110 13c-19 16-19 42 0 58"/>
+  </g>
+  <text x="80" y="56" text-anchor="middle" fill="#0867ad" font-family="Arial,sans-serif" font-size="49" font-weight="900" letter-spacing="-3">ISO</text>
+  <text x="80" y="105" text-anchor="middle" fill="#0867ad" font-family="Arial,sans-serif" font-size="25" font-weight="500">9001:2015</text>
+</svg>

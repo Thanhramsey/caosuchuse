@@ -12,6 +12,7 @@ $email = isset($settings['email']) ? (string) $settings['email'] : '';
 $registration = isset($settings['business_registration']) ? (string) $settings['business_registration'] : '';
 $mapUrl = isset($settings['map_embed_url']) ? trim((string) $settings['map_embed_url']) : '';
 $mapUrl = preg_match('~^https://~i', $mapUrl) ? $mapUrl : '';
+$footerMapUrl = $mapUrl !== '' ? $mapUrl : 'https://www.google.com/maps?q=' . rawurlencode($address !== '' ? $address : $companyName . ' Gia Lai') . '&output=embed';
 ?>
 	</div>
 </main>
@@ -35,7 +36,13 @@ $mapUrl = preg_match('~^https://~i', $mapUrl) ? $mapUrl : '';
 			<div class="footer-col">
 				<?php foreach ($footerSections as $footerSection): ?>
 					<h2><?php echo html_escape(public_label($footerSection, 'title', $siteLang)); ?></h2>
-					<?php if ($footerSection['section_type'] === 'html' && ! empty($footerSection['content_html'])): ?>
+					<?php if ($footerSection['section_key'] === 'certifications'): ?>
+					<div class="footer-cert footer-cert--iso">
+						<img src="<?php echo html_escape(public_asset('assets/images/certifications/iso-iec-17025.svg')); ?>" alt="ISO/IEC 17025" loading="lazy">
+						<img src="<?php echo html_escape(public_asset('assets/images/certifications/iso-9001-2015.svg')); ?>" alt="ISO 9001:2015" loading="lazy">
+						<img src="<?php echo html_escape(public_asset('assets/images/certifications/iso-14001-2015.svg')); ?>" alt="ISO 14001:2015" loading="lazy">
+					</div>
+					<?php elseif ($footerSection['section_type'] === 'html' && ! empty($footerSection['content_html'])): ?>
 					<div class="footer-text"><?php echo $footerSection['content_html']; ?></div>
 					<?php elseif ($footerSection['section_type'] === 'image' && ! empty($footerSection['image_path'])): ?>
 					<div class="footer-cert"><img src="<?php echo html_escape(public_media_url($footerSection['image_path'])); ?>" alt="<?php echo html_escape(public_label($footerSection, 'title', $siteLang)); ?>" loading="lazy"></div>
@@ -95,14 +102,12 @@ $mapUrl = preg_match('~^https://~i', $mapUrl) ? $mapUrl : '';
 				<?php endif; ?>
 			</div>
 
-			<?php if ($mapUrl !== ''): ?>
 			<div class="footer-col footer-map">
 				<h2 class="visually-hidden"><?php echo lang('site_contact_map'); ?></h2>
-				<iframe src="<?php echo html_escape($mapUrl); ?>" title="<?php echo lang('site_contact_map'); ?> <?php echo html_escape($companyName); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<iframe src="<?php echo html_escape($footerMapUrl); ?>" title="<?php echo lang('site_contact_map'); ?> <?php echo html_escape($companyName); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 			</div>
-			<?php endif; ?>
+			<p class="footer-bottom">&copy; <?php echo date('Y'); ?> <?php echo html_escape($companyName); ?></p>
 		</div>
-		<p class="footer-bottom">&copy; <?php echo date('Y'); ?> <?php echo html_escape($companyName); ?></p>
 	</div>
 </footer>
 

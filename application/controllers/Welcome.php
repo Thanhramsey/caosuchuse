@@ -13,11 +13,13 @@ class Welcome extends Public_Controller
 		$fullSections = array();
 		foreach ($groups['main'] as $section)
 		{
+			if ($section['section_key'] === 'featured_projects') { continue; }
 			$section['items'] = $this->homeSectionItems($section);
 			$mainSections[] = $section;
 		}
 		foreach ($groups['full'] as $section)
 		{
+			if ($section['section_key'] === 'featured_projects') { continue; }
 			$section['items'] = $this->homeSectionItems($section);
 			$fullSections[] = $section;
 		}
@@ -35,6 +37,10 @@ class Welcome extends Public_Controller
 
 	private function homeSectionItems($section)
 	{
+		if ($section['section_key'] === 'news')
+		{
+			$section['item_limit'] = 4;
+		}
 		if ($section['section_type'] === 'content' && $section['source_resource'] === 'products')
 		{
 			return $this->Content_model->search('products', array(
