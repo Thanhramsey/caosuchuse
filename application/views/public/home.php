@@ -35,7 +35,8 @@
 				<p class="empty-state"><?php echo lang('site_content_updating'); ?></p>
 
 			<?php elseif ($section['source_resource'] === 'products'): ?>
-				<div class="product-grid">
+				<div class="product-carousel home-products-slider" data-product-carousel data-interval="4000">
+					<div class="product-track">
 					<?php foreach ($section['items'] as $item): ?>
 					<article class="product-card">
 						<?php if (! empty($item['cover_path'])): ?>
@@ -48,6 +49,7 @@
 						<a class="card-link" href="<?php echo html_escape(public_content_url('products', $item['slug'])); ?>"><?php echo lang('site_view_item'); ?> <span aria-hidden="true">&rarr;</span></a>
 					</article>
 					<?php endforeach; ?>
+					</div>
 				</div>
 
 			<?php else: ?>

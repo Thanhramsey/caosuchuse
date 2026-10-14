@@ -13,12 +13,12 @@ class Welcome extends Public_Controller
 		$fullSections = array();
 		foreach ($groups['main'] as $section)
 		{
-			$section['items'] = $this->sectionItems($section);
+			$section['items'] = $this->homeSectionItems($section);
 			$mainSections[] = $section;
 		}
 		foreach ($groups['full'] as $section)
 		{
-			$section['items'] = $this->sectionItems($section);
+			$section['items'] = $this->homeSectionItems($section);
 			$fullSections[] = $section;
 		}
 
@@ -31,6 +31,18 @@ class Welcome extends Public_Controller
 			'fullSections' => $fullSections,
 			'slider' => $this->Slider_model->search(array('status' => '1'), 10, 0)
 		));
+	}
+
+	private function homeSectionItems($section)
+	{
+		if ($section['section_type'] === 'content' && $section['source_resource'] === 'products')
+		{
+			return $this->Content_model->search('products', array(
+				'status' => 'published',
+				'category_id' => (int) $section['source_category_id']
+			), max(8, (int) $section['item_limit']), 0);
+		}
+		return $this->sectionItems($section);
 	}
 
 	/**
@@ -199,7 +211,8 @@ class Welcome extends Public_Controller
 			$filters['category_id'] = (int) $category['id'];
 		}
 		$total = $this->Content_model->countSearch($resource, $filters);
-		$items = $this->Content_model->search($resource, $filters, self::PER_PAGE, ($page - 1) * self::PER_PAGE);
+		$perPage = $resource === 'products' ? max(1, $total) : self::PER_PAGE;
+		$items = $this->Content_model->search($resource, $filters, $perPage, ($page - 1) * $perPage);
 		$title = empty($category) ? $config['label'] : $category['name'];
 		$baseUrl = public_archive_url($resource) . (empty($category) ? '' : '/' . rawurlencode($category['slug']));
 
@@ -212,7 +225,7 @@ class Welcome extends Public_Controller
 			'categories' => empty($category) ? $this->Category_model->active($resource) : array(),
 			'items' => $items,
 			'page' => $page,
-			'pages' => (int) ceil($total / self::PER_PAGE),
+			'pages' => (int) ceil($total / $perPage),
 			'baseUrl' => $baseUrl
 		));
 	}
