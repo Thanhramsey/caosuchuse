@@ -6,6 +6,7 @@ class Content extends Admin_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->helper('public');
 		$this->load->model(array('Content_model', 'Category_model', 'Attachment_model'));
 	}
 
