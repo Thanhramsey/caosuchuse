@@ -125,7 +125,7 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 .site-alert-error { background: #fdecea; border-left-color: #c62828; color: #8c1d18; }
 
 /* ---------- Header ---------- */
-.site-header { background: var(--page-bg); padding-top: 0; }
+.site-header { background: transparent; padding-top: 0; }
 
 .masthead {
 	position: relative;
@@ -338,6 +338,12 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 
 /* ---------- Widget cột ---------- */
 .widget { background: var(--card); border: 1px solid var(--line); border-radius: 3px; }
+.widget-kcn-card { padding: 8px; background: var(--card); }
+.widget-kcn-card > a { display: block; color: inherit; text-decoration: none; }
+.widget-kcn-title { display: block; margin: 0 0 7px; color: var(--green); text-align: center; font-size: 13px; font-weight: 700; line-height: 1.35; }
+.widget-kcn-card img { display: block; width: 100%; aspect-ratio: 1.75 / 1; object-fit: cover; }
+.widget-kcn-card > a:hover { text-decoration: none; }
+.widget-kcn-card > a:hover .widget-kcn-title { color: var(--green-dark); }
 .widget-head {
 	background: var(--green); color: #fff;
 	padding: 7px 10px; text-align: center;
@@ -636,10 +642,7 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 /* ---------- Trải nghiệm trang chủ ---------- */
 html { scroll-behavior: smooth; }
 body {
-	background:
-		radial-gradient(circle at 12% 18%, rgba(255, 255, 255, .48), transparent 30rem),
-		radial-gradient(circle at 88% 34%, rgba(7, 104, 48, .15), transparent 36rem),
-		linear-gradient(135deg, #dcefe3 0%, #c9e4d2 52%, #b9d9c4 100%);
+	background: #e8f4ed;
 	background-attachment: fixed;
 }
 .nav-bar {

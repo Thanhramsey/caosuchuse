@@ -14,6 +14,14 @@ if ($hasCover && $section['source_resource'] !== 'videos')
 }
 $widgetId = 'widget-' . (int) $section['id'];
 ?>
+<?php if ($section['section_key'] === 'kcn_nam_pleiku'): ?>
+<section class="widget widget-kcn-card">
+	<a href="<?php echo html_escape(public_content_url('projects', 'khu-cong-nghiep-nam-pleiku')); ?>" aria-label="Khu công nghiệp Nam Pleiku">
+		<span class="widget-kcn-title">KHU CÔNG NGHIỆP NAM PLEIKU</span>
+		<img src="<?php echo html_escape(public_asset('assets/images/content/nam-pleiku-gate.png')); ?>" alt="Cổng Khu công nghiệp Nam Pleiku" loading="lazy">
+	</a>
+</section>
+<?php else: ?>
 <section class="widget" aria-labelledby="<?php echo $widgetId; ?>-title">
 	<h2 class="widget-head" id="<?php echo $widgetId; ?>-title"><?php echo html_escape(public_label($section, 'title', $siteLang)); ?></h2>
 	<div class="widget-body">
@@ -85,3 +93,4 @@ $widgetId = 'widget-' . (int) $section['id'];
 		<?php endif; ?>
 	</div>
 </section>
+<?php endif; ?>
