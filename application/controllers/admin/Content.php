@@ -121,6 +121,7 @@ class Content extends Admin_Controller
 			'title' => $title,
 			'excerpt' => (string) $this->input->post('excerpt'),
 			'coverPath' => $coverPath,
+			'videoUrl' => $this->Content_model->has($resource, 'video') ? trim((string) $this->input->post('extra_url')) : '',
 			'contentHtml' => $hasBody ? $this->html_sanitizer->clean($this->input->post('content_html')) : '',
 			'attachments' => $attachments === NULL ? array() : $attachments
 		), TRUE);
@@ -190,9 +191,9 @@ class Content extends Admin_Controller
 			$errors['cover_path'] = 'Ảnh đại diện phải được tải lên từ hệ thống.';
 		}
 		$videoUrl = trim((string) $this->input->post('extra_url'));
-		if ($this->Content_model->has($resource, 'video') && ! preg_match('#^https://(www\.)?(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/)[A-Za-z0-9_-]{6,}([&?][A-Za-z0-9_=&.-]*)?$#', $videoUrl))
+		if ($this->Content_model->has($resource, 'video') && ! $this->isValidVideoSource($videoUrl))
 		{
-			$errors['extra_url'] = 'Vui lòng nhập link YouTube hợp lệ (https://www.youtube.com/watch?v=... hoặc https://youtu.be/...).';
+			$errors['extra_url'] = 'Hãy dán link YouTube hợp lệ hoặc tải lên tệp MP4/WebM.';
 		}
 		$attachments = $this->collectAttachments($resource, $errors);
 		if (! empty($errors))
@@ -267,6 +268,27 @@ class Content extends Admin_Controller
 			return 'gallery';
 		}
 		return $this->Content_model->has($resource, 'attachments') ? 'attachments' : NULL;
+	}
+
+	private function isValidVideoSource($source)
+	{
+		if (preg_match('#^https://(www\.)?(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/embed/|youtube\.com/shorts/)[A-Za-z0-9_-]{6,}([&?][A-Za-z0-9_=&.-]*)?$#i', $source))
+		{
+			return TRUE;
+		}
+		if (! preg_match('#^assets/uploads/([a-f0-9]{32})\.(mp4|webm)$#i', $source, $match))
+		{
+			return FALSE;
+		}
+		$path = FCPATH . $source;
+		if (! is_file($path) || ! function_exists('finfo_open'))
+		{
+			return FALSE;
+		}
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$mime = finfo_file($finfo, $path);
+		finfo_close($finfo);
+		return strtolower($match[2]) === 'mp4' ? in_array($mime, array('video/mp4', 'application/mp4'), TRUE) : $mime === 'video/webm';
 	}
 
 	private function collectAttachments($resource, &$errors)

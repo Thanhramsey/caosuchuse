@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 $date = public_date(isset($item['published_at']) ? $item['published_at'] : '');
 $embed = isset($item['extra_url']) ? public_embed_url($item['extra_url']) : '';
+$videoSource = $resource === 'videos' && isset($item['extra_url']) ? public_video_url($item['extra_url']) : '';
+$videoPoster = $resource === 'videos' ? public_video_thumbnail_url($item) : '';
 $images = array();
 $files = array();
 foreach ($attachments as $file)
@@ -35,6 +37,8 @@ foreach ($attachments as $file)
 
 			<?php if ($embed !== ''): ?>
 			<div class="video-frame"><iframe src="<?php echo html_escape($embed); ?>" title="<?php echo html_escape($item['title']); ?>" allowfullscreen loading="lazy"></iframe></div>
+			<?php elseif ($videoSource !== ''): ?>
+			<video class="article-video" controls preload="metadata" playsinline poster="<?php echo html_escape($videoPoster); ?>"><source src="<?php echo html_escape($videoSource); ?>" type="video/<?php echo strtolower(pathinfo(parse_url($videoSource, PHP_URL_PATH), PATHINFO_EXTENSION)) === 'webm' ? 'webm' : 'mp4'; ?>"></video>
 			<?php elseif (! empty($item['cover_path']) && $resource !== 'albums'): ?>
 			<img class="article-cover" src="<?php echo html_escape(public_media_url($item['cover_path'])); ?>" alt="<?php echo html_escape($item['title']); ?>">
 			<?php endif; ?>

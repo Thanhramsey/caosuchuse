@@ -3,7 +3,8 @@
 $items = isset($section['items']) ? $section['items'] : array();
 // Hỏi đáp và công bố thông tin luôn hiển thị dạng danh sách chữ như bản thiết kế.
 $hasCover = ! in_array($section['source_resource'], array('faqs', 'disclosures'), TRUE);
-if ($hasCover)
+if ($section['source_resource'] === 'videos') { $hasCover = TRUE; }
+if ($hasCover && $section['source_resource'] !== 'videos')
 {
 	$hasCover = FALSE;
 	foreach ($items as $item)
@@ -61,8 +62,9 @@ $widgetId = 'widget-' . (int) $section['id'];
 				<?php foreach ($items as $index => $item): ?>
 				<div class="slide<?php echo $index === 0 ? ' is-active' : ''; ?>">
 					<a class="widget-media" href="<?php echo html_escape(public_content_url($section['source_resource'], $item['slug'])); ?>">
-						<?php if (! empty($item['cover_path'])): ?>
-						<img src="<?php echo html_escape(public_media_url($item['cover_path'])); ?>" alt="<?php echo html_escape($item['title']); ?>" loading="lazy">
+						<?php $thumbnail = $section['source_resource'] === 'videos' ? public_video_thumbnail_url($item) : (! empty($item['cover_path']) ? public_media_url($item['cover_path']) : ''); ?>
+						<?php if ($thumbnail !== ''): ?>
+						<img src="<?php echo html_escape($thumbnail); ?>" alt="<?php echo html_escape($item['title']); ?>" loading="lazy">
 						<?php endif; ?>
 						<p><?php echo html_escape($item['title']); ?></p>
 					</a>

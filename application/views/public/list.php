@@ -45,12 +45,13 @@
 				<div class="article-list">
 					<?php foreach ($items as $item): $url = public_content_url($resource, $item['slug']); ?>
 					<article class="article-item">
-						<?php if (! empty($item['cover_path'])): ?>
-						<a href="<?php echo html_escape($url); ?>" tabindex="-1" aria-hidden="true"><img src="<?php echo html_escape(public_media_url($item['cover_path'])); ?>" alt="" loading="lazy"></a>
+						<?php $thumbnail = $resource === 'videos' ? public_video_thumbnail_url($item) : (! empty($item['cover_path']) ? public_media_url($item['cover_path']) : ''); ?>
+						<?php if ($thumbnail !== ''): ?>
+						<a href="<?php echo html_escape($url); ?>" tabindex="-1" aria-hidden="true"><img src="<?php echo html_escape($thumbnail); ?>" alt="" loading="lazy"></a>
 						<?php endif; ?>
 						<h3><a href="<?php echo html_escape($url); ?>"><?php echo html_escape($item['title']); ?></a></h3>
 						<?php if (! empty($item['excerpt'])): ?><p><?php echo html_escape(public_excerpt($item['excerpt'], 150)); ?></p><?php endif; ?>
-						<?php $d = public_date($item['published_at']); if ($d !== ''): ?><p class="meta"><?php echo html_escape($d); ?></p><?php endif; ?>
+						<?php $d = public_date($item['published_at']); if ($resource !== 'services' && $d !== ''): ?><p class="meta"><?php echo html_escape($d); ?></p><?php endif; ?>
 					</article>
 					<?php endforeach; ?>
 				</div>

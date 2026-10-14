@@ -340,6 +340,49 @@
 		var slugTarget = form.querySelector('[data-slug-target]');
 		var passwordHint = form.querySelector('[data-password-hint]');
 		var slugTouched = false;
+		var videoField = form.querySelector('[data-video-field]');
+		var videoValue = videoField ? form.elements.extra_url : null;
+		var videoStatus = videoField ? videoField.querySelector('[data-video-status]') : null;
+		var renderVideoStatus = function () {
+			if (!videoStatus || !videoValue) { return; }
+			var value = videoValue.value.trim();
+			videoStatus.textContent = /^assets\/uploads\/[a-f0-9]{32}\.(mp4|webm)$/i.test(value)
+				? 'Đang chọn video từ máy: ' + value.split('/').pop()
+				: value ? 'Đang dùng video từ liên kết YouTube.' : '';
+		};
+		if (videoField) {
+			var videoInput = videoField.querySelector('[data-video-file]');
+			var videoUploadButton = videoField.querySelector('[data-video-upload-trigger]');
+			videoUploadButton.addEventListener('click', function () { videoInput.click(); });
+			videoField.querySelector('[data-video-clear]').addEventListener('click', function () {
+				videoValue.value = '';
+				renderVideoStatus();
+				clearFieldError(form, 'extra_url');
+			});
+			videoValue.addEventListener('input', renderVideoStatus);
+			videoInput.addEventListener('change', function () {
+				if (!videoInput.files.length) { return; }
+				var data = new FormData();
+				data.append('files', videoInput.files[0]);
+				setLoading(videoUploadButton, true);
+				setUploadPending(videoField, true);
+				postForm(uploadUrl + '?kind=video', data)
+					.then(function (res) {
+						if (!res.success || !res.data || !res.data.path) {
+							throw new Error(res.message || 'Không tải được video.');
+						}
+						videoValue.value = res.data.path;
+						renderVideoStatus();
+						clearFieldError(form, 'extra_url');
+					})
+					.catch(function (err) { toast(err.message, 'error'); })
+					.finally(function () {
+						setLoading(videoUploadButton, false);
+						setUploadPending(videoField, false);
+						videoInput.value = '';
+					});
+			});
+		}
 
 		var showEditPanel = function () {
 			if (!previewPanel) { return; }
@@ -362,6 +405,7 @@
 			});
 			form.querySelectorAll('[data-image-field]').forEach(renderPreview);
 			form.querySelectorAll('[data-attachments-field]').forEach(function (field) { renderAttachments(field, []); });
+			renderVideoStatus();
 			slugTouched = false;
 		};
 
@@ -384,6 +428,7 @@
 			});
 			form.querySelectorAll('[data-image-field]').forEach(renderPreview);
 			form.querySelectorAll('[data-attachments-field]').forEach(function (field) { renderAttachments(field, data.attachments || []); });
+			renderVideoStatus();
 			slugTouched = !!(slugTarget && slugTarget.value);
 		};
 
@@ -435,7 +480,7 @@
 		if (previewButton) {
 			previewButton.addEventListener('click', function () {
 				if (parseInt(form.getAttribute('data-upload-pending') || '0', 10) > 0) {
-					toast('Vui lòng đợi tải ảnh và tệp hoàn tất trước khi xem trước.', 'error');
+					toast('Vui lòng đợi tải ảnh, tệp và video hoàn tất trước khi xem trước.', 'error');
 					return;
 				}
 				editors.forEach(function (item) {
@@ -469,7 +514,7 @@
 		form.addEventListener('submit', function (event) {
 			event.preventDefault();
 			if (parseInt(form.getAttribute('data-upload-pending') || '0', 10) > 0) {
-				toast('Vui lòng đợi tải ảnh hoàn tất trước khi lưu.', 'error');
+				toast('Vui lòng đợi tải ảnh, tệp và video hoàn tất trước khi lưu.', 'error');
 				return;
 			}
 			editors.forEach(function (item) {

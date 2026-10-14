@@ -5,6 +5,7 @@ class Media extends Admin_Controller
 {
 	const IMAGE_TYPES = 'jpg|jpeg|png|gif|webp';
 	const FILE_TYPES = 'jpg|jpeg|png|gif|webp|pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar';
+	const VIDEO_TYPES = 'mp4|webm';
 
 	public function index()
 	{
@@ -50,11 +51,13 @@ class Media extends Admin_Controller
 				return $this->jsonError($this->uploadError(isset($_FILES[$field]['error']) ? (int) $_FILES[$field]['error'] : UPLOAD_ERR_NO_FILE));
 			}
 		}
-		$imagesOnly = $this->input->get('kind') === 'image';
+		$kind = (string) $this->input->get('kind');
+		$imagesOnly = $kind === 'image';
+		$videosOnly = $kind === 'video';
 		$this->load->library('upload', array(
 			'upload_path' => $uploadPath,
-			'allowed_types' => $imagesOnly ? self::IMAGE_TYPES : self::FILE_TYPES,
-			'max_size' => $imagesOnly ? 5120 : 20480,
+			'allowed_types' => $imagesOnly ? self::IMAGE_TYPES : ($videosOnly ? self::VIDEO_TYPES : self::FILE_TYPES),
+			'max_size' => $imagesOnly ? 5120 : ($videosOnly ? 102400 : 20480),
 			'encrypt_name' => TRUE,
 			'file_ext_tolower' => TRUE,
 			'remove_spaces' => TRUE
@@ -99,7 +102,7 @@ class Media extends Admin_Controller
 		$this->requirePermission('media.delete');
 		$this->requirePost();
 		$name = basename((string) $name);
-		if (! preg_match('/^[a-f0-9]{32}\.(jpg|jpeg|png|gif|webp|pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar)$/i', $name)) return $this->json(array('success' => FALSE, 'message' => 'Tên tệp không hợp lệ.'), 422);
+		if (! preg_match('/^[a-f0-9]{32}\.(jpg|jpeg|png|gif|webp|pdf|doc|docx|xls|xlsx|ppt|pptx|zip|rar|mp4|webm)$/i', $name)) return $this->json(array('success' => FALSE, 'message' => 'Tên tệp không hợp lệ.'), 422);
 		$path = FCPATH . 'assets/uploads/' . $name;
 		if (! is_file($path)) return $this->json(array('success' => FALSE, 'message' => 'Tệp không tồn tại.'), 404);
 		unlink($path);
@@ -199,7 +202,9 @@ class Media extends Admin_Controller
 			'.xlsx' => array_merge(array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'), $zip),
 			'.pptx' => array_merge(array('application/vnd.openxmlformats-officedocument.presentationml.presentation'), $zip),
 			'.zip' => $zip,
-			'.rar' => array('application/x-rar', 'application/x-rar-compressed', 'application/vnd.rar')
+			'.rar' => array('application/x-rar', 'application/x-rar-compressed', 'application/vnd.rar'),
+			'.mp4' => array('video/mp4', 'application/mp4'),
+			'.webm' => array('video/webm')
 		);
 		$extension = strtolower($extension);
 		if (! isset($allowed[$extension]))

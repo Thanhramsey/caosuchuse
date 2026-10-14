@@ -151,6 +151,51 @@ if (! function_exists('public_embed_url'))
 	}
 }
 
+if (! function_exists('public_video_url'))
+{
+	function public_video_url($path)
+	{
+		$path = trim((string) $path);
+		if (! preg_match('#^assets/uploads/[a-f0-9]{32}\\.(mp4|webm)$#i', $path) || ! is_file(FCPATH . $path))
+		{
+			return '';
+		}
+		return base_url($path);
+	}
+}
+
+if (! function_exists('public_video_thumbnail_url'))
+{
+	function public_video_thumbnail_url($item)
+	{
+		$cover = isset($item['cover_path']) ? trim((string) $item['cover_path']) : '';
+		if ($cover !== '')
+		{
+			return public_media_url($cover);
+		}
+
+		$url = isset($item['extra_url']) ? trim((string) $item['extra_url']) : '';
+		$host = strtolower((string) parse_url($url, PHP_URL_HOST));
+		$videoId = '';
+		if (in_array($host, array('youtu.be', 'www.youtu.be'), TRUE))
+		{
+			$videoId = (string) strtok(ltrim((string) parse_url($url, PHP_URL_PATH), '/'), '/');
+		}
+		elseif (in_array($host, array('youtube.com', 'www.youtube.com', 'm.youtube.com'), TRUE))
+		{
+			$path = (string) parse_url($url, PHP_URL_PATH);
+			parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
+			if ($path === '/watch' && isset($query['v'])) { $videoId = (string) $query['v']; }
+			elseif (preg_match('#^/(?:embed|shorts)/([A-Za-z0-9_-]+)#', $path, $match)) { $videoId = $match[1]; }
+		}
+		if (preg_match('/^[A-Za-z0-9_-]{6,}$/', $videoId))
+		{
+			return 'https://img.youtube.com/vi/' . rawurlencode($videoId) . '/hqdefault.jpg';
+		}
+		return base_url('assets/images/hero-rubber-plantation.webp');
+	}
+}
+
 if (! function_exists('public_menu'))
 {
 	function public_menu($items, $activePath, $lang = 'vi', $depth = 0)

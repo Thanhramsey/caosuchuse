@@ -53,7 +53,7 @@
 			<?php else: ?>
 				<div class="news-grid">
 					<?php foreach ($section['items'] as $item): ?>
-					<?php $this->load->view('public/partials/news_card', array('item' => $item, 'resource' => $section['source_resource'])); ?>
+					<?php $this->load->view('public/partials/news_card', array('item' => $item, 'resource' => $section['source_resource'], 'image_title_only' => $section['section_key'] === 'business_fields')); ?>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>
@@ -88,7 +88,7 @@
 		<?php else: ?>
 			<div class="news-grid">
 				<?php foreach ($section['items'] as $item): ?>
-				<?php $this->load->view('public/partials/news_card', array('item' => $item, 'resource' => $section['source_resource'])); ?>
+				<?php $this->load->view('public/partials/news_card', array('item' => $item, 'resource' => $section['source_resource'], 'image_title_only' => $section['section_key'] === 'business_fields')); ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>

@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 $imageAttachments = array();
 $fileAttachments = array();
+$videoEmbed = isset($videoUrl) ? public_embed_url($videoUrl) : '';
+$localVideo = isset($videoUrl) ? public_video_url($videoUrl) : '';
+$videoPoster = public_video_thumbnail_url(array('cover_path' => $coverPath, 'extra_url' => isset($videoUrl) ? $videoUrl : ''));
 foreach ($attachments as $attachment)
 {
 	if (in_array(strtolower($attachment['ext']), array('jpg', 'jpeg', 'png', 'gif', 'webp'), TRUE)) { $imageAttachments[] = $attachment; }
@@ -23,6 +26,7 @@ foreach ($attachments as $attachment)
 			<header class="article-head"><h1><?php echo html_escape($title); ?></h1></header>
 			<?php if (trim($excerpt) !== ''): ?><p class="article-excerpt"><?php echo nl2br(html_escape($excerpt)); ?></p><?php endif; ?>
 			<?php if ($coverPath !== ''): ?><img class="article-cover" src="<?php echo html_escape(base_url($coverPath)); ?>" alt="<?php echo html_escape($title); ?>"><?php endif; ?>
+			<?php if ($videoEmbed !== ''): ?><div class="video-frame"><iframe src="<?php echo html_escape($videoEmbed); ?>" title="<?php echo html_escape($title); ?>" allowfullscreen></iframe></div><?php elseif ($localVideo !== ''): ?><video class="article-video" controls preload="metadata" playsinline poster="<?php echo html_escape($videoPoster); ?>"><source src="<?php echo html_escape($localVideo); ?>" type="video/<?php echo strtolower(pathinfo(parse_url($localVideo, PHP_URL_PATH), PATHINFO_EXTENSION)) === 'webm' ? 'webm' : 'mp4'; ?>"></video><?php endif; ?>
 			<?php if ($contentHtml !== ''): ?><div class="rich-text"><?php echo $contentHtml; ?></div><?php endif; ?>
 			<?php if (! empty($imageAttachments)): ?>
 			<h2 class="panel-title panel-title--left" style="margin-top:18px">Hình ảnh</h2>

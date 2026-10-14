@@ -189,6 +189,20 @@ $lowerLabel = mb_strtolower($resourceLabel, 'UTF-8');
 									<div class="invalid-feedback" data-error-for="cover_path"></div>
 								</div>
 							</div>
+							<?php if (in_array('video', $fields, TRUE)): ?>
+							<div class="mt-4" data-video-field>
+								<label class="form-label required" for="field-video">Link YouTube hoặc video tải lên</label>
+								<input class="form-control" type="text" id="field-video" name="extra_url" maxlength="255" placeholder="Dán link YouTube hoặc chọn tệp MP4/WebM">
+								<div class="form-hint" data-video-status></div>
+								<div class="btn-list mt-2">
+									<button type="button" class="btn btn-sm" data-video-upload-trigger><?php echo admin_icon('upload'); ?> Tải video từ máy</button>
+									<button type="button" class="btn btn-sm btn-ghost-danger" data-video-clear>Gỡ video</button>
+								</div>
+								<input type="file" accept=".mp4,.webm,video/mp4,video/webm" hidden data-video-file>
+								<div class="form-hint">Chấp nhận MP4 hoặc WebM (tối đa 100 MB, tùy giới hạn máy chủ); hoặc dán link YouTube.</div>
+								<div class="invalid-feedback" data-error-for="extra_url"></div>
+							</div>
+							<?php endif; ?>
 							<?php if (in_array('attachments', $fields, TRUE) || in_array('gallery', $fields, TRUE)): ?>
 							<div class="mt-4" data-attachments-field>
 								<label class="form-label"><?php echo in_array('gallery', $fields, TRUE) ? 'Ảnh thư viện' : 'Tệp đính kèm'; ?></label>
