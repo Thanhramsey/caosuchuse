@@ -40,18 +40,17 @@ class Welcome extends Public_Controller
 		$sections = $this->railSections(array('right'));
 		$this->load->model('Rubber_price_model');
 		$price = $this->Rubber_price_model->latest();
-		if (! empty($price))
+		foreach ($sections as $index => $section)
 		{
-			array_unshift($sections, array(
-				'id' => 0,
-				'section_key' => 'rubber_prices',
-				'section_type' => 'content',
-				'source_resource' => '',
-				'title' => 'Giá thu mua mủ cao su',
-				'rubberPrice' => $price
-			));
+			if ($section['section_key'] !== 'rubber_prices') continue;
+			if (empty($price))
+			{
+				unset($sections[$index]);
+				continue;
+			}
+			$sections[$index]['rubberPrice'] = $price;
 		}
-		return $sections;
+		return array_values($sections);
 	}
 
 	private function homeSectionItems($section)
