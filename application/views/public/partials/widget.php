@@ -69,13 +69,33 @@ $widgetId = 'widget-' . (int) $section['id'];
 			<div class="slides" data-slides>
 				<?php foreach ($items as $index => $item): ?>
 				<div class="slide<?php echo $index === 0 ? ' is-active' : ''; ?>">
+					<?php if ($section['source_resource'] === 'videos'): ?>
+						<?php
+						$thumbnail = public_video_thumbnail_url($item);
+						$videoEmbed = isset($item['extra_url']) ? public_embed_url($item['extra_url']) : '';
+						$videoSource = isset($item['extra_url']) ? public_video_url($item['extra_url']) : '';
+						$videoType = $videoSource !== '' && strtolower(pathinfo(parse_url($videoSource, PHP_URL_PATH), PATHINFO_EXTENSION)) === 'webm' ? 'video/webm' : 'video/mp4';
+						?>
+						<div class="widget-video">
+							<?php if ($videoEmbed !== '' || $videoSource !== ''): ?>
+							<button class="widget-video-trigger" type="button" data-widget-video-play data-stop-slideshow data-embed="<?php echo html_escape($videoEmbed); ?>" data-video-src="<?php echo html_escape($videoSource); ?>" data-video-type="<?php echo $videoType; ?>" aria-label="Phát video: <?php echo html_escape($item['title']); ?>">
+								<img src="<?php echo html_escape($thumbnail); ?>" alt="" loading="lazy">
+								<span class="widget-video-play-icon" aria-hidden="true"></span>
+							</button>
+							<?php else: ?>
+							<a class="widget-video-poster" href="<?php echo html_escape(public_content_url('videos', $item['slug'])); ?>"><img src="<?php echo html_escape($thumbnail); ?>" alt="<?php echo html_escape($item['title']); ?>" loading="lazy"></a>
+							<?php endif; ?>
+							<p class="widget-video-title"><a href="<?php echo html_escape(public_content_url('videos', $item['slug'])); ?>"><?php echo html_escape($item['title']); ?></a></p>
+						</div>
+					<?php else: ?>
 					<a class="widget-media" href="<?php echo html_escape(public_content_url($section['source_resource'], $item['slug'])); ?>">
-						<?php $thumbnail = $section['source_resource'] === 'videos' ? public_video_thumbnail_url($item) : (! empty($item['cover_path']) ? public_media_url($item['cover_path']) : ''); ?>
+						<?php $thumbnail = ! empty($item['cover_path']) ? public_media_url($item['cover_path']) : ''; ?>
 						<?php if ($thumbnail !== ''): ?>
 						<img src="<?php echo html_escape($thumbnail); ?>" alt="<?php echo html_escape($item['title']); ?>" loading="lazy">
 						<?php endif; ?>
 						<p><?php echo html_escape($item['title']); ?></p>
 					</a>
+					<?php endif; ?>
 				</div>
 				<?php endforeach; ?>
 			</div>

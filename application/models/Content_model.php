@@ -54,8 +54,10 @@ class Content_model extends CI_Model
 	public function search($resource, $filters, $limit, $offset)
 	{
 		$this->applyFilters($resource, $filters);
+		$select = $resource . '.id, ' . $resource . '.title, ' . $resource . '.slug, ' . $resource . '.status, ' . $resource . '.cover_path, ' . $resource . '.excerpt, ' . $resource . '.content_html, ' . $resource . '.created_by, ' . $resource . '.published_at, ' . $resource . '.updated_at, categories.name AS category_name';
+		if ($resource === 'videos') { $select .= ', videos.extra_url'; }
 		return $this->db
-			->select($resource . '.id, ' . $resource . '.title, ' . $resource . '.slug, ' . $resource . '.status, ' . $resource . '.cover_path, ' . $resource . '.excerpt, ' . $resource . '.content_html, ' . $resource . '.created_by, ' . $resource . '.published_at, ' . $resource . '.updated_at, categories.name AS category_name')
+			->select($select)
 			->from($resource)
 			->join('categories', 'categories.id = ' . $resource . '.category_id', 'left')
 			->order_by($resource . '.updated_at', 'DESC')

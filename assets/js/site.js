@@ -77,7 +77,7 @@
 		var interval = parseInt(root.getAttribute('data-interval'), 10) || 5000;
 		var timer = null;
 		function start() {
-			if (timer || document.hidden) { return; }
+			if (timer || document.hidden || root.hasAttribute('data-slides-stopped')) { return; }
 			timer = window.setInterval(function () { show(current + 1); }, interval);
 		}
 
@@ -87,12 +87,58 @@
 			timer = null;
 		}
 
+		root.addEventListener('click', function (event) {
+			if (event.target.closest('[data-stop-slideshow]')) {
+				root.setAttribute('data-slides-stopped', 'true');
+				stop();
+			}
+		});
 		root.addEventListener('mouseenter', stop);
 		root.addEventListener('mouseleave', start);
 		root.addEventListener('focusin', stop);
 		root.addEventListener('focusout', start);
 		document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
 		start();
+	}
+
+	function initInlineVideos() {
+		Array.prototype.forEach.call(document.querySelectorAll('[data-widget-video-play]'), function (button) {
+			button.addEventListener('click', function () {
+				var wrapper = button.parentNode;
+				var player = document.createElement('div');
+				player.className = 'widget-video-player';
+				var title = button.getAttribute('aria-label') || 'Video';
+				var embed = button.getAttribute('data-embed');
+
+				if (embed) {
+					var iframe = document.createElement('iframe');
+					iframe.src = embed + (embed.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1';
+					iframe.title = title.replace('Phát video: ', '');
+					iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+					iframe.allowFullscreen = true;
+					iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+					player.appendChild(iframe);
+				} else {
+					var video = document.createElement('video');
+					video.controls = true;
+					video.autoplay = true;
+					video.playsInline = true;
+					video.preload = 'metadata';
+					var poster = button.querySelector('img');
+					if (poster) { video.poster = poster.src; }
+					video.setAttribute('aria-label', title.replace('Phát video: ', ''));
+					var source = document.createElement('source');
+					source.src = button.getAttribute('data-video-src');
+					source.type = button.getAttribute('data-video-type') || 'video/mp4';
+					video.appendChild(source);
+					player.appendChild(video);
+					var playPromise = video.play();
+					if (playPromise && typeof playPromise.catch === 'function') { playPromise.catch(function () {}); }
+				}
+
+				wrapper.replaceChild(player, button);
+			}, { once: true });
+		});
 	}
 
 	function initProductCarousels() {
@@ -334,6 +380,7 @@
 		initPageLoader();
 		initNavToggle();
 		Array.prototype.forEach.call(document.querySelectorAll('[data-slides]'), initSlides);
+		initInlineVideos();
 		initProductCarousels();
 		initPageTransitions();
 		initScrollEffects();
