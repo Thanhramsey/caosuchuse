@@ -28,11 +28,30 @@ class Welcome extends Public_Controller
 			'page_title' => $this->setting('meta_title', $this->setting('company_name', 'Công ty TNHH MTV Cao su Chư Sê')),
 			'meta_description' => $this->setting('meta_description', $this->setting('slogan')),
 			'rail' => $this->railSections(array('left')),
-			'railRight' => $this->railSections(array('right')),
+			'railRight' => $this->homeRightRail(),
 			'mainSections' => $mainSections,
 			'fullSections' => $fullSections,
 			'slider' => $this->Slider_model->search(array('status' => '1'), 10, 0)
 		));
+	}
+
+	private function homeRightRail()
+	{
+		$sections = $this->railSections(array('right'));
+		$this->load->model('Rubber_price_model');
+		$price = $this->Rubber_price_model->latest();
+		if (! empty($price))
+		{
+			array_unshift($sections, array(
+				'id' => 0,
+				'section_key' => 'rubber_prices',
+				'section_type' => 'content',
+				'source_resource' => '',
+				'title' => 'Giá thu mua mủ cao su',
+				'rubberPrice' => $price
+			));
+		}
+		return $sections;
 	}
 
 	private function homeSectionItems($section)

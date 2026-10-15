@@ -357,6 +357,14 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 .widget-body > *:first-child { margin-top: 0; }
 .widget-body > *:last-child { margin-bottom: 0; }
 
+.rubber-price-widget { display: grid; gap: 8px; }
+.rubber-price-date { padding: 8px 6px; border: 1px solid #d8c79a; background: #f5edd7; color: #273b24; text-align: center; font-size: 14px; font-weight: 700; }
+.rubber-price-table { width: 100%; border-collapse: separate; border-spacing: 2px; table-layout: fixed; }
+.rubber-price-table th, .rubber-price-table td { padding: 9px 5px; background: #a9cf91; color: #15251a; text-align: center; font-size: 12px; line-height: 1.35; }
+.rubber-price-table th { width: 39%; font-weight: 700; }
+.rubber-price-table td:nth-child(2) { width: 22%; font-weight: 800; font-size: 15px; }
+.rubber-price-table td:nth-child(3) { width: 39%; font-weight: 700; }
+
 .widget-list { list-style: none; margin: 0; padding: 0; }
 .widget-list li { padding: 6px 0 6px 12px; position: relative; border-bottom: 1px dashed #e5e5e5; }
 .widget-list li:last-child { border-bottom: 0; }
@@ -909,6 +917,7 @@ body.has-scrolled .nav-bar {
 	.nav-search input { width: 100%; }
 	.layout-home, .layout-inner { grid-template-columns: minmax(0, 1fr); }
 	.layout-home > .main-col { order: 1; min-width: 0; }
+	.layout-home > .rail-left, .layout-home > .rail-right { display: none; }
 	.layout-home > .rail-left { order: 2; }
 	.layout-home > .rail-right { order: 3; }
 	.layout-home .rail, .layout-inner .rail { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
@@ -936,6 +945,41 @@ body.has-scrolled .nav-bar {
 	.footer-main { grid-template-columns: minmax(0, 1fr); }
 	.layout-home .rail, .layout-inner .rail { grid-template-columns: minmax(0, 1fr); }
 	.home-highlights, .home-orientation, .home-stats { grid-template-columns: minmax(0, 1fr); }
+	.home-section--business_fields,
+	.home-section--company_numbers,
+	.home-section--orientation,
+	.home-section--news { padding: 10px; }
+	.home-section--business_fields .panel-title,
+	.home-section--company_numbers .panel-title,
+	.home-section--orientation .panel-title,
+	.home-section--news .panel-title { margin-bottom: 9px; font-size: 16px; }
+	.home-section--business_fields .section-subtitle,
+	.home-section--orientation .section-subtitle { margin-bottom: 10px; font-size: 11px; }
+	.home-section--business_fields .news-grid,
+	.home-section--news .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+	.home-section--business_fields .news-card img,
+	.home-section--news .news-card img { aspect-ratio: 4 / 3; }
+	.home-section--business_fields .news-card-body,
+	.home-section--news .news-card-body { padding: 8px; }
+	.home-section--business_fields .news-card h3,
+	.home-section--news .news-card h3 { margin-bottom: 4px; font-size: 12px; line-height: 1.35; }
+	.home-section--news .news-card p { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; font-size: 11px; line-height: 1.4; }
+	.home-section--news .news-card-foot { gap: 4px; padding: 6px 8px; }
+	.home-section--news .news-card-foot time { font-size: 10px; }
+	.home-section--news .news-card-foot .btn { padding: 5px 7px; font-size: 9px; }
+	.home-section--company_numbers .home-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+	.home-section--company_numbers .home-stat { padding: 12px 7px; border-radius: 8px; box-shadow: 0 4px 12px rgba(11, 118, 54, .12); }
+	.home-section--company_numbers .home-stat strong { font-size: 16px; }
+	.home-section--company_numbers .home-stat span { margin-top: 4px; font-size: 10px; line-height: 1.3; }
+	.home-section--orientation .home-orientation { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+	.home-section--orientation .home-orientation > div { padding: 36px 9px 10px; border-radius: 7px; }
+	.home-section--orientation .home-orientation > div::before { top: 11px; left: 10px; width: 15px; height: 15px; border-width: 3px; }
+	.home-section--orientation .home-orientation strong { font-size: 11px; line-height: 1.35; }
+	.home-section--orientation .home-orientation p { margin-top: 4px; font-size: 10px; line-height: 1.4; }
+	.home-section--business_fields > .more-link,
+	.home-section--company_numbers > .more-link,
+	.home-section--orientation > .more-link,
+	.home-section--news > .more-link { margin-top: 10px; }
 	.home-intro-lead, .section-subtitle { overflow-wrap: anywhere; }
 	.home-stat { padding: 19px 12px; }
 	.home-hero .hero-caption { position: static; border-radius: 0; box-shadow: none; }

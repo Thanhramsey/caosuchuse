@@ -11,6 +11,7 @@ $menuGroups = array(
 		array('key' => 'disclosures', 'label' => 'Công bố thông tin', 'url' => 'admin/noi-dung/disclosures', 'permission' => 'disclosures.manage'),
 		array('key' => 'achievements', 'label' => 'Thành tích', 'url' => 'admin/noi-dung/achievements', 'permission' => 'achievements.manage'),
 		array('key' => 'faqs', 'label' => 'Hỏi đáp', 'url' => 'admin/noi-dung/faqs', 'permission' => 'faqs.manage'),
+		array('key' => 'rubber_prices', 'label' => 'Giá thu mua mủ', 'url' => 'admin/gia-thu-mua-mu', 'permission' => 'rubber_prices.manage'),
 		array('key' => 'categories', 'label' => 'Danh mục nội dung', 'url' => 'admin/danh-muc', 'permission' => 'categories.manage')
 	)),
 	array('key' => 'library', 'label' => 'Thư viện', 'icon' => 'photo', 'items' => array(

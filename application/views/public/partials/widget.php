@@ -25,7 +25,19 @@ $widgetId = 'widget-' . (int) $section['id'];
 <section class="widget" aria-labelledby="<?php echo $widgetId; ?>-title">
 	<h2 class="widget-head" id="<?php echo $widgetId; ?>-title"><?php echo html_escape(public_label($section, 'title', $siteLang)); ?></h2>
 	<div class="widget-body">
-		<?php if ($section['section_type'] === 'html'): ?>
+		<?php if ($section['section_key'] === 'rubber_prices' && ! empty($section['rubberPrice'])): ?>
+			<?php $price = $section['rubberPrice']; ?>
+			<div class="rubber-price-widget">
+				<div class="rubber-price-date">Ngày: <?php echo html_escape(public_date($price['effective_date'])); ?></div>
+				<table class="rubber-price-table">
+					<tbody>
+						<tr><th>Mủ nước<br>(loại 1)</th><td><?php echo html_escape(rtrim(rtrim(number_format((float) $price['grade_1_price'], 2, ',', '.'), '0'), ',')); ?></td><td>đồng/TSC</td></tr>
+						<tr><th>Mủ nước<br>(loại 2)</th><td><?php echo html_escape(rtrim(rtrim(number_format((float) $price['grade_2_price'], 2, ',', '.'), '0'), ',')); ?></td><td>đồng/TSC</td></tr>
+					</tbody>
+				</table>
+			</div>
+
+		<?php elseif ($section['section_type'] === 'html'): ?>
 			<div class="rich-text"><?php echo $section['content_html']; ?></div>
 
 		<?php elseif ($section['section_type'] === 'image' && ! empty($section['image_path'])): ?>

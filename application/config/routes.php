@@ -112,6 +112,9 @@ $route['admin/trang-chu/chi-tiet/(:num)'] = 'admin/home/show/$1';
 $route['admin/trang-chu/luu'] = 'admin/home/save';
 $route['admin/trang-chu/xoa/(:num)'] = 'admin/home/delete/$1';
 $route['admin/trang-chu/doi-thu-tu/(:num)/(up|down)'] = 'admin/home/move/$1/$2';
+$route['admin/gia-thu-mua-mu'] = 'admin/rubber_prices/index';
+$route['admin/gia-thu-mua-mu/luu'] = 'admin/rubber_prices/save';
+$route['admin/gia-thu-mua-mu/xoa/(:num)'] = 'admin/rubber_prices/delete/$1';
 $route['admin/cau-hinh'] = 'admin/settings/index';
 $route['admin/cau-hinh/luu'] = 'admin/settings/save';
 foreach (array('contacts', 'newsletter_subscribers', 'comments', 'partners', 'testimonials') as $recordRoute)
