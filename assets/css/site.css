@@ -251,12 +251,12 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 	overflow: hidden; border: 1px solid rgba(255, 255, 255, .8);
 	font-size: 0; line-height: 0;
 }
-.lang-switch .lang-vi { background: #da251d; position: relative; }
-.lang-switch .lang-vi::after {
+.lang-switch .lang-vi, .mobile-language .lang-vi { background: #da251d; position: relative; }
+.lang-switch .lang-vi::after, .mobile-language .lang-vi::after {
 	content: "\2605"; position: absolute; inset: 0; color: #ff0;
 	font-size: 13px; line-height: 20px; text-align: center;
 }
-.lang-switch .lang-en {
+.lang-switch .lang-en, .mobile-language .lang-en {
 	background-color: #012169;
 	background-image:
 		linear-gradient(90deg, transparent 44%, #c8102e 44%, #c8102e 56%, transparent 56%),
@@ -293,7 +293,8 @@ a:hover { color: var(--green-dark); text-decoration: underline; }
 .main-menu > li > a:hover,
 .main-menu > li.is-active > a { color: var(--green); text-decoration: none; }
 .main-menu li.is-active > a { color: var(--green); font-weight: 900; }
-.main-menu .caret { font-size: 10px; margin-left: 4px; }
+.main-menu .caret { font-size: 14px; margin-left: 4px; }
+.main-menu .mobile-language { display: none; }
 
 .main-menu ul {
 	list-style: none; margin: 0; padding: 4px 0;
@@ -900,6 +901,7 @@ body.has-scrolled .nav-bar {
 
 @media (max-width: 900px) {
 	.masthead { grid-template-columns: 150px minmax(0, 1fr); min-height: 96px; }
+	.masthead::after { display: none; }
 	.masthead-media { display: none; }
 	.masthead-logo { clip-path: none; }
 	.masthead-group, .masthead-company { font-size: 15px; }
@@ -911,6 +913,13 @@ body.has-scrolled .nav-bar {
 		display: none; border-top: 1px solid var(--line); margin-top: 8px;
 	}
 	.main-menu.is-open { display: flex; }
+	.masthead .lang-switch { display: none; }
+	.main-menu .mobile-language { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 4px; }
+	.mobile-language-label { flex-basis: 100%; color: var(--muted); font-size: 12px; }
+	.main-menu .mobile-language > a { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 7px; border: 1px solid var(--line); border-radius: 50%; }
+	.mobile-language .language-flag { display: block; width: 28px; height: 28px; border-radius: 50%; overflow: hidden; }
+	.mobile-language .lang-vi::after { font-size: 17px; line-height: 28px; }
+	.main-menu .mobile-language > a[aria-current="true"] { color: var(--green-dark); border-color: var(--green); background: var(--green-light); font-weight: 700; }
 	.main-menu > li > a { padding: 10px 4px; border-bottom: 1px solid #f0f0f0; }
 	.main-menu ul {
 		position: static; opacity: 1; visibility: visible; transform: none;
@@ -934,12 +943,15 @@ body.has-scrolled .nav-bar {
 @media (max-width: 560px) {
 	html, body { max-width: 100%; overflow-x: hidden; }
 	.container { width: auto; max-width: none; margin-left: 12px; margin-right: 12px; padding-left: 0; padding-right: 0; }
-	.masthead { grid-template-columns: minmax(0, 1fr); }
-	.masthead-logo { clip-path: none; padding: 10px; }
-	.masthead-logo img { max-height: 70px; }
-	.masthead-title { min-width: 0; padding: 13px 8px 15px; }
-	.masthead-group, .masthead-company { max-width: 100%; font-size: 13.5px; line-height: 1.35; }
-	.masthead-slogan { font-size: 10.5px; }
+	.masthead { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; min-height: 118px; padding: 10px; }
+	.masthead-logo { align-self: center; min-height: 82px; clip-path: none; filter: none; border-radius: 8px; padding: 8px; }
+	.masthead-logo img { width: 54px; max-height: 66px; object-fit: contain; }
+	.masthead-title { min-width: 0; padding: 4px 0; }
+	.masthead-group, .masthead-company { max-width: 100%; line-height: 1.4; letter-spacing: 0; }
+	.masthead-group { font-size: 11px; }
+	.masthead-company { font-size: 12px; }
+	.masthead-slogan { margin-top: 6px; font-size: 9px; }
+	.lang-switch { top: 8px; right: 10px; }
 	.panel { padding: 12px; }
 	.product-grid, .news-grid, .article-list { grid-template-columns: minmax(0, 1fr); }
 	.product-track > .product-card { flex-basis: 100%; }

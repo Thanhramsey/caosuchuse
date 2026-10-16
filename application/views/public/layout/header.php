@@ -70,7 +70,16 @@ $showLanguageSwitch = $englishSiteUrl !== '#';
 					<span aria-hidden="true">&#9776;</span> <?php echo lang('site_menu'); ?>
 				</button>
 				<nav aria-label="<?php echo lang('site_main_nav'); ?>">
-					<ul class="main-menu" id="main-menu"><?php public_menu($mainMenu, $activePath, $siteLang); ?></ul>
+					<ul class="main-menu" id="main-menu">
+						<?php public_menu($mainMenu, $activePath, $siteLang); ?>
+						<?php if ($showLanguageSwitch): ?>
+						<li class="mobile-language">
+							<span class="mobile-language-label"><?php echo lang('site_language_switcher'); ?></span>
+							<a href="<?php echo html_escape(public_lang_url('vi')); ?>" hreflang="vi" title="<?php echo lang('site_language_vi'); ?>"<?php echo $siteLang === 'vi' ? ' aria-current="true"' : ''; ?>><span class="language-flag lang-vi" aria-hidden="true"></span><span class="visually-hidden"><?php echo lang('site_language_vi'); ?></span></a>
+							<a href="<?php echo html_escape($englishSiteUrl); ?>" hreflang="en" title="<?php echo lang('site_language_en'); ?>"<?php echo $siteLang === 'en' ? ' aria-current="true"' : ''; ?>><span class="language-flag lang-en" aria-hidden="true"></span><span class="visually-hidden"><?php echo lang('site_language_en'); ?></span></a>
+						</li>
+						<?php endif; ?>
+					</ul>
 				</nav>
 				<div class="nav-search">
 					<form action="<?php echo site_url('tim-kiem'); ?>" method="get" role="search">
